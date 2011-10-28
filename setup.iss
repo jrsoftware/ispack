@@ -5,7 +5,7 @@
 ;
 ; Inno Setup QuickStart Pack Setup script by Martijn Laan
 ;
-; $jrsoftware: ispack/setup.iss,v 1.103 2011/09/16 14:32:16 mlaan Exp $
+; $jrsoftware: ispack/setup.iss,v 1.104 2011/10/28 07:24:53 mlaan Exp $
 
 [Setup]
 AppName=Inno Setup QuickStart Pack
@@ -74,9 +74,12 @@ Source: "isfiles\Languages\Norwegian.isl"; DestDir: "{app}\Languages"; Flags: ig
 Source: "isfiles\Languages\Polish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "isfiles\Languages\Portuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "isfiles\Languages\Russian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "isfiles\Languages\SerbianCyrillic.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "isfiles\Languages\SerbianLatin.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "isfiles\Languages\Slovak.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "isfiles\Languages\Slovenian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "isfiles\Languages\Spanish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "isfiles\Languages\Ukrainian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "isfiles\WizModernImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
 Source: "isfiles\WizModernImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
 Source: "isfiles\WizModernSmallImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
