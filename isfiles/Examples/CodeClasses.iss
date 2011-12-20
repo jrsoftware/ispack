@@ -320,7 +320,10 @@ begin
   URLLabel.Parent := ParentForm;
   { Alter Font *after* setting Parent so the correct defaults are inherited first }
   URLLabel.Font.Style := URLLabel.Font.Style + [fsUnderline];
-  URLLabel.Font.Color := clBlue;
+  if GetWindowsVersion >= $040A0000 then   { Windows 98 or later? }
+    URLLabel.Font.Color := clHotLight
+  else
+    URLLabel.Font.Color := clBlue;
   URLLabel.Top := AboutButton.Top + AboutButton.Height - URLLabel.Height - 2;
   URLLabel.Left := AboutButton.Left + AboutButton.Width + ScaleX(20);
 end;
