@@ -5,12 +5,12 @@
 ;
 ; Inno Setup QuickStart Pack Setup script by Martijn Laan
 ;
-; $jrsoftware: ispack/setup.iss,v 1.104 2011/10/28 07:24:53 mlaan Exp $
+; $jrsoftware: ispack/setup.iss,v 1.105 2011/12/20 15:16:00 mlaan Exp $
 
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.4.2
+AppVersion=5.4.3
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
