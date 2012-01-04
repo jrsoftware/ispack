@@ -7,6 +7,12 @@
 ;
 ; $jrsoftware: ispack/setup.iss,v 1.105 2011/12/20 15:16:00 mlaan Exp $
 
+#ifdef UNICODE
+  #define isfiles "isfiles-unicode"
+#else
+  #define isfiles "isfiles"
+#endif
+
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
@@ -24,7 +30,7 @@ Compression=lzma2/ultra
 InternalCompressLevel=ultra
 SolidCompression=yes
 UninstallDisplayIcon={app}\Compil32.exe
-LicenseFile=isfiles\license.txt
+LicenseFile={#isfiles}\license.txt
 AppModifyPath="{app}\Ispack-setup.exe" /modify=1
 WizardImageFile=compiler:WizModernImage-IS.bmp
 WizardSmallImageFile=compiler:WizModernSmallImage-IS.bmp
@@ -42,87 +48,87 @@ Source: "otherfiles\IDE.ico"; Flags: dontcopy
 Source: "otherfiles\ISPP.ico"; Flags: dontcopy
 Source: "otherfiles\ISCrypt.ico"; Flags: dontcopy
 Source: "isxdlfiles\isxdl.dll"; Flags: dontcopy
-Source: "isfiles\WizModernSmallImage-IS.bmp"; Flags: dontcopy
+Source: "{#isfiles}\WizModernSmallImage-IS.bmp"; Flags: dontcopy
 ;other files
-Source: "isfiles\license.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\ISetup.chm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\ISPP.chm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\Compil32.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\isscint.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\ISCC.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not ISPPCheck
-Source: "isfiles\ISPPCC.exe"; DestDir: "{app}"; DestName: "ISCC.exe"; Flags: ignoreversion; Check: ISPPCheck
-Source: "isfiles\ISCmplr.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\ISPP.dll"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
-Source: "isfiles\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
-Source: "isfiles\Setup.e32"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\SetupLdr.e32"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\Default.isl"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\Languages\Basque.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\BrazilianPortuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Catalan.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Czech.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Danish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Dutch.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Finnish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\French.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\German.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Hebrew.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Hungarian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Italian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Japanese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Norwegian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Polish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Portuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Russian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\SerbianCyrillic.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\SerbianLatin.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Slovak.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Slovenian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Spanish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\Languages\Ukrainian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "isfiles\WizModernImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\WizModernImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\WizModernSmallImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\WizModernSmallImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\iszlib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\isunzlib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\isbzip.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\isbunzip.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\islzma.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\islzma32.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\islzma64.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\whatsnew.htm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\isfaq.htm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "isfiles\Examples\Example1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Example2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Example3.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\64Bit.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\64BitThreeArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\64BitTwoArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Components.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Languages.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\MyProg.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\MyProg-x64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\MyProg-IA64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\MyProg.chm"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Readme.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Readme-Dutch.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\Readme-German.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodeDlg.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodeClasses.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodeDll.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodeAutomation.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodeAutomation2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\CodePrepareToInstall.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\UninstallCodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\MyDll.dll"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\MyDll\C\MyDll.c"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
-Source: "isfiles\Examples\MyDll\C\MyDll.def"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
-Source: "isfiles\Examples\MyDll\C\MyDll.dsp"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
-Source: "isfiles\Examples\MyDll\Delphi\MyDll.dpr"; DestDir: "{app}\Examples\MyDll\Delphi"; Flags: ignoreversion
-Source: "isfiles\Examples\ISPPExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "isfiles\Examples\ISPPExample1License.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\ISetup.chm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\ISPP.chm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\Compil32.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\isscint.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\ISCC.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not ISPPCheck
+Source: "{#isfiles}\ISPPCC.exe"; DestDir: "{app}"; DestName: "ISCC.exe"; Flags: ignoreversion; Check: ISPPCheck
+Source: "{#isfiles}\ISCmplr.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\ISPP.dll"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
+Source: "{#isfiles}\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
+Source: "{#isfiles}\Setup.e32"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\SetupLdr.e32"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\Default.isl"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Basque.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\BrazilianPortuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Catalan.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Czech.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Danish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Dutch.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Finnish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\French.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\German.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Hebrew.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Hungarian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Italian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Japanese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Norwegian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Polish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Portuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Russian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\SerbianCyrillic.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\SerbianLatin.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Slovak.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Slovenian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Spanish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Ukrainian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\WizModernImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\WizModernImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\WizModernSmallImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\WizModernSmallImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\iszlib.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\isunzlib.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\isbzip.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\isbunzip.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\islzma.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\islzma32.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\islzma64.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\whatsnew.htm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\isfaq.htm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Example1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Example2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Example3.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\64Bit.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\64BitThreeArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\64BitTwoArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Components.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Languages.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyProg.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyProg-x64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyProg-IA64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyProg.chm"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Readme.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Readme-Dutch.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\Readme-German.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodeDlg.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodeClasses.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodeDll.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodeAutomation.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodeAutomation2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\CodePrepareToInstall.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\UninstallCodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll.dll"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C\MyDll.c"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C\MyDll.def"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C\MyDll.dsp"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\Delphi\MyDll.dpr"; DestDir: "{app}\Examples\MyDll\Delphi"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\ISPPExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\ISPPExample1License.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "Setup.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "Setup.ico"; DestDir: "{app}\Examples"; Flags: ignoreversion
 ;external files
