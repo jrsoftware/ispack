@@ -72,6 +72,7 @@ Source: "{#isfiles}\Languages\Dutch.isl"; DestDir: "{app}\Languages"; Flags: ign
 Source: "{#isfiles}\Languages\Finnish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\French.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\German.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Greek.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Hebrew.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Hungarian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Italian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
