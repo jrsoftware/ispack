@@ -63,7 +63,6 @@ Source: "{#isfiles}\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion; C
 Source: "{#isfiles}\Setup.e32"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\SetupLdr.e32"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Default.isl"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\Languages\Basque.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\BrazilianPortuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Catalan.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Czech.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
@@ -83,7 +82,6 @@ Source: "{#isfiles}\Languages\Portuguese.isl"; DestDir: "{app}\Languages"; Flags
 Source: "{#isfiles}\Languages\Russian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\SerbianCyrillic.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\SerbianLatin.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-Source: "{#isfiles}\Languages\Slovak.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Slovenian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Spanish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Ukrainian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
