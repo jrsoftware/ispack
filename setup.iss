@@ -1,11 +1,9 @@
 ; Inno Setup
-; Copyright (C) 1997-2011 Jordan Russell. All rights reserved.
+; Copyright (C) 1997-2012 Jordan Russell. All rights reserved.
 ; Portions by Martijn Laan
 ; For conditions of distribution and use, see LICENSE.TXT.
 ;
 ; Inno Setup QuickStart Pack Setup script by Martijn Laan
-;
-; $jrsoftware: ispack/setup.iss,v 1.105 2011/12/20 15:16:00 mlaan Exp $
 
 #ifdef UNICODE
   #define isfiles "isfiles-unicode"
@@ -16,7 +14,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.0
+AppVersion=5.5.1
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
