@@ -63,6 +63,7 @@ Source: "{#isfiles}\SetupLdr.e32"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Default.isl"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\BrazilianPortuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Catalan.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Corsican.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Czech.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Danish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Dutch.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
@@ -74,6 +75,9 @@ Source: "{#isfiles}\Languages\Hebrew.isl"; DestDir: "{app}\Languages"; Flags: ig
 Source: "{#isfiles}\Languages\Hungarian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Italian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Japanese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+#ifdef UNICODE
+Source: "{#isfiles}\Languages\Nepali.islu"; DestDir: "{app}\Languages"; Flags: ignoreversion
+#endif
 Source: "{#isfiles}\Languages\Norwegian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Polish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Portuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
@@ -133,6 +137,10 @@ Source: "{tmp}\ISCrypt.dll"; DestDir: "{app}"; Flags: external ignoreversion; Ch
 Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: external ignoreversion; Check: not ModifyingCheck
 
 [InstallDelete]
+;remove unicode-only files if needed
+#ifndef UNICODE
+Type: files; Name: "{app}\Languages\Nepali.islu"
+#endif
 ;optional ISPP files
 Type: files; Name: {app}\ISPP.dll; Check: not ISPPCheck
 Type: files; Name: {app}\ISPPBuiltins.iss; Check: not ISPPCheck
