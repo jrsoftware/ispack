@@ -1,5 +1,5 @@
 ; Inno Setup
-; Copyright (C) 1997-2012 Jordan Russell. All rights reserved.
+; Copyright (C) 1997-2013 Jordan Russell. All rights reserved.
 ; Portions by Martijn Laan
 ; For conditions of distribution and use, see LICENSE.TXT.
 ;
@@ -14,7 +14,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.2
+AppVersion=5.5.3
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
@@ -179,7 +179,7 @@ Filename: "{app}\Compil32.exe"; Parameters: "/UNASSOC"; RunOnceId: "RemoveISSAss
 
 [Code]
 var
-  Modifying: Boolean;
+  Modifying, AllowInnoIDE: Boolean;
 
   IDEPage, ISPPPage, ISCryptPage: TWizardPage;
   InnoIDECheckBox, ISStudioCheckBox, ISPPCheckBox, ISCryptCheckBox: TCheckBox;
@@ -208,10 +208,25 @@ external 'DestroyIcon@user32.dll stdcall';
 
 const
   DI_NORMAL = 3;
+  
+procedure SetInnoIDECheckBoxChecked(Checked: Boolean);
+begin
+  if InnoIDECheckBox <> nil then
+    InnoIDECheckBox.Checked := Checked;
+end;
+
+function GetInnoIDECheckBoxChecked: Boolean;
+begin
+  if InnoIDECheckBox <> nil then
+    Result := InnoIDECheckBox.Checked
+  else
+    Result := False;
+end;
 
 function InitializeSetup(): Boolean;
 begin
   Modifying := ExpandConstant('{param:modify|0}') = '1';
+  AllowInnoIDE := ExpandConstant('{param:allowinnoide|0}') = '1';
   FilesDownloaded := False;
   InnoIDEPathRead := False;
   ISStudioPathRead := False;
@@ -326,24 +341,42 @@ var
   Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption: String;
   UrlSize: Integer;
 begin
-  Caption := 'InnoIDE and Inno Script Studio';
-  SubCaption1 := 'Would you like to download and install InnoIDE or Inno Script Studio?';
-  IconFileName := 'IDE.ico';
-  Label1Caption :=
-    'InnoIDE and Inno Script Studio are easy to use Inno Setup Script editors meant as a replacement of the standard Compiler IDE that comes with Inno Setup.' +
-    ' InnoIDE is by Graham Murt, see http://www.innoide.org/ for more information.' +
-    ' Inno Script Studio is by Kymoto Solutions, see https://www.kymoto.org/inno-script-studio for more information.'  +  #13#10#13#10 +
-    'Using InnoIDE or Inno Script Studio is especially recommended for new users.';
-  Label2Caption := 'Select whether you would like to download and install InnoIDE or Inno Script Studio, then click Next.';
-  CheckCaption := '&Download and install InnoIDE';
+  if AllowInnoIDE then begin
+    Caption := 'InnoIDE and Inno Script Studio';
+    SubCaption1 := 'Would you like to download and install InnoIDE or Inno Script Studio?';
+    IconFileName := 'IDE.ico';
+    Label1Caption :=
+      'InnoIDE and Inno Script Studio are easy to use Inno Setup Script editors meant as a replacement of the standard Compiler IDE that comes with Inno Setup.' +
+      ' InnoIDE is by Graham Murt, see http://www.innoide.org/ for more information.' +
+      ' Inno Script Studio is by Kymoto Solutions, see https://www.kymoto.org/inno-script-studio for more information.'  +  #13#10#13#10 +
+      'Using InnoIDE or Inno Script Studio is especially recommended for new users.';
+    Label2Caption := 'Select whether you would like to download and install InnoIDE or Inno Script Studio, then click Next.';
+    CheckCaption := '&Download and install InnoIDE';
 
-  IDEPage := CreateCustomOptionPage(wpSelectProgramGroup, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, InnoIDECheckBox);
+    IDEPage := CreateCustomOptionPage(wpSelectProgramGroup, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, InnoIDECheckBox);
 
-  CheckCaption := 'D&ownload and install Inno Script Studio';
-  CreateCustomOption(IDEPage, CheckCaption, ISStudioCheckBox, InnoIDECheckBox);
+    CheckCaption := 'D&ownload and install Inno Script Studio';
+    CreateCustomOption(IDEPage, CheckCaption, ISStudioCheckBox, InnoIDECheckBox);
 
-  UrlSize := CreateUrlLabel(IDEPage, ISStudioCheckBox, 0, 'http://www.innoide.org/');    
-  CreateUrlLabel(IDEPage, ISStudioCheckBox, UrlSize + ScaleX(12), 'https://www.kymoto.org/inno-script-studio');    
+    UrlSize := CreateUrlLabel(IDEPage, ISStudioCheckBox, 0, 'http://www.innoide.org/');    
+    CreateUrlLabel(IDEPage, ISStudioCheckBox, UrlSize + ScaleX(12), 'https://www.kymoto.org/inno-script-studio');    
+  end else begin
+    Caption := 'Inno Script Studio';
+    SubCaption1 := 'Would you like to download and install Inno Script Studio?';
+    IconFileName := 'IDE.ico';
+    Label1Caption :=
+      'Inno Script Studio is an easy to use Inno Setup Script editor meant as a replacement of the standard Compiler IDE that comes with Inno Setup.' +
+      ' Inno Script Studio is by Kymoto Solutions, see https://www.kymoto.org/inno-script-studio for more information.'  +  #13#10#13#10 +
+      'Using Inno Script Studio is especially recommended for new users.';
+    Label2Caption := 'Select whether you would like to download and install Inno Script Studio, then click Next.';
+    CheckCaption := '&Download and install Inno Script Studio';
+
+    IDEPage := CreateCustomOptionPage(wpSelectProgramGroup, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISStudioCheckBox);
+
+    CreateUrlLabel(IDEPage, ISStudioCheckBox, 0, 'https://www.kymoto.org/inno-script-studio');    
+
+    InnoIDECheckBox := nil;
+  end;
 
   Caption := 'Inno Setup Preprocessor';
   SubCaption1 := 'Would you like to install Inno Setup Preprocessor?';
@@ -353,8 +386,7 @@ begin
     ' you to conditionally compile parts of scripts, to use compile time variables in your scripts and to use built-in' +
     ' functions which for example can read from the registry or INI files at compile time.' + #13#10#13#10 +
     'ISPP also contains a special version of the ISCC command line compiler which can take variable definitions as command' +
-    ' line parameters and use them during compilation.' + #13#10#13#10 +
-    'ISPP is compatible with InnoIDE.';
+    ' line parameters and use them during compilation.';
   Label2Caption := 'Select whether you would like to install ISPP, then click Next.';
   CheckCaption := '&Install Inno Setup Preprocessor';
 
@@ -375,18 +407,18 @@ end;
 procedure InitializeWizard;
 begin
   CreateCustomPages;
-  
-  InnoIDECheckBox.Checked := GetPreviousData('IDE' {don't change}, '1') = '1';
+
+  SetInnoIDECheckBoxChecked(GetPreviousData('IDE' {don't change}, '1') = '1');
   ISStudioCheckBox.Checked := GetPreviousData('ISStudio', '1') = '1';
   ISPPCheckBox.Checked := GetPreviousData('ISPP', '1') = '1';
   ISCryptCheckBox.Checked := GetPreviousData('ISCrypt', '1') = '1';
 
-  IDEOrg := InnoIDECheckBox.Checked or ISStudioCheckBox.Checked;
+  IDEOrg := GetInnoIDECheckBoxChecked or ISStudioCheckBox.Checked;
 end;
 
 procedure RegisterPreviousData(PreviousDataKey: Integer);
 begin
-  SetPreviousData(PreviousDataKey, 'IDE' {don't change}, IntToStr(Ord(InnoIDECheckBox.Checked)));
+  SetPreviousData(PreviousDataKey, 'IDE' {don't change}, IntToStr(Ord(GetInnoIDECheckBoxChecked)));
   SetPreviousData(PreviousDataKey, 'ISStudio', IntToStr(Ord(ISStudioCheckBox.Checked)));
   SetPreviousData(PreviousDataKey, 'ISPP', IntToStr(Ord(ISPPCheckBox.Checked)));
   SetPreviousData(PreviousDataKey, 'ISCrypt', IntToStr(Ord(ISCryptCheckBox.Checked)));
@@ -440,8 +472,8 @@ end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 begin
-  if InnoIDECheckBox.Checked or ISStudioCheckBox.Checked or ISCryptCheckBox.Checked then
-    DownloadFiles(InnoIDECheckBox.Checked, ISStudioCheckBox.Checked, ISCryptCheckBox.Checked);
+  if GetInnoIDECheckBoxChecked or ISStudioCheckBox.Checked or ISCryptCheckBox.Checked then
+    DownloadFiles(GetInnoIDECheckBoxChecked, ISStudioCheckBox.Checked, ISCryptCheckBox.Checked);
   Result := '';
 end;
 
@@ -457,7 +489,7 @@ end;
 
 function InnoIDECheck: Boolean;
 begin
-  Result := InnoIDECheckBox.Checked and FilesDownloaded;
+  Result := GetInnoIDECheckBoxChecked and FilesDownloaded;
 end;
 
 function ISStudioCheck: Boolean;
