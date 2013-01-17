@@ -27,6 +27,7 @@ AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
 SolidCompression=yes
+Uninstallable=not PortableCheck
 UninstallDisplayIcon={app}\Compil32.exe
 LicenseFile={#isfiles}\license.txt
 AppModifyPath="{app}\Ispack-setup.exe" /modify=1
@@ -549,4 +550,9 @@ end;
 function GetISStudioPath(S: String): String;
 begin
   Result := GetIDEPath('{7C22BD69-9939-43CE-B16E-437DB2A39492}_is1', 'Inno Script Studio', ISStudioPath, ISStudioPathRead);
+end;
+
+function PortableCheck: Boolean;
+begin
+  Result := ExpandConstant('{param:portable|0}') = '1';
 end;
