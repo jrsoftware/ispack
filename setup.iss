@@ -176,8 +176,7 @@ Name: "{commondesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; Wor
 [Run]
 Filename: "{tmp}\innoide-setup.exe"; StatusMsg: "Installing InnoIDE..."; Parameters: "/verysilent /group=""{groupname}\InnoIDE"" /mergetasks=""desktopicon,file_association"""; Flags: skipifdoesntexist; Check: InnoIDECheck; Tasks: desktopicon
 Filename: "{tmp}\innoide-setup.exe"; StatusMsg: "Installing InnoIDE..."; Parameters: "/verysilent /group=""{groupname}\InnoIDE"" /mergetasks=""!desktopicon,file_association"""; Flags: skipifdoesntexist; Check: InnoIDECheck; Tasks: not desktopicon
-Filename: "{tmp}\isstudio-setup.exe"; StatusMsg: "Installing Inno Script Studio..."; Parameters: "/verysilent /group=""{groupname}\Inno Script Studio"" /mergetasks=""desktopicon,issfileassociation"""; Flags: skipifdoesntexist; Check: ISStudioCheck; Tasks: desktopicon
-Filename: "{tmp}\isstudio-setup.exe"; StatusMsg: "Installing Inno Script Studio..."; Parameters: "/verysilent /group=""{groupname}\Inno Script Studio"" /mergetasks=""!desktopicon,issfileassociation"""; Flags: skipifdoesntexist; Check: ISStudioCheck; Tasks: not desktopicon
+Filename: "{tmp}\isstudio-setup.exe"; StatusMsg: "Installing Inno Script Studio..."; Parameters: {code:GetISStudioCmdLine}; Flags: skipifdoesntexist; Check: ISStudioCheck
 Filename: "{app}\Compil32.exe"; Parameters: "/ASSOC"; StatusMsg: "{cm:AssocingFileExtension,Inno Setup,.iss}"; Check: not AnyIDECheck
 Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,Inno Setup}"; Flags: nowait postinstall skipifsilent; Check: not AnyIDECheck and not ModifyingCheck
 Filename: "{code:GetInnoIDEPath}\InnoIDE.exe"; WorkingDir: "{code:GetInnoIDEPath}"; Description: "{cm:LaunchProgram,InnoIDE}"; Flags: nowait postinstall skipifsilent skipifdoesntexist; Check: InnoIDECheck and not ModifyingCheck
@@ -555,4 +554,14 @@ end;
 function PortableCheck: Boolean;
 begin
   Result := ExpandConstant('{param:portable|0}') = '1';
+end;
+
+function GetISStudioCmdLine(S: String): String;
+begin
+  Result := '/verysilent /group="{groupname}\Inno Script Studio" /mergetasks="';
+  if not IsTaskSelected('desktopicon') then
+    Result := Result + '!';
+  Result := Result + 'desktopicon,issfileassociation"';
+  if PortableCheck then
+    Result := Result + ' /portable=1';
 end;
