@@ -558,7 +558,7 @@ end;
 
 function GetISStudioCmdLine(S: String): String;
 begin
-  Result := '/verysilent /group="{groupname}\Inno Script Studio" /mergetasks="';
+  Result := '/verysilent /group="' + ExpandConstant('{groupname}') + '\Inno Script Studio" /mergetasks="';
   if not IsTaskSelected('desktopicon') then
     Result := Result + '!';
   Result := Result + 'desktopicon,issfileassociation"';
