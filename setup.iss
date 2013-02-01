@@ -34,8 +34,10 @@ AppModifyPath="{app}\Ispack-setup.exe" /modify=1
 WizardImageFile=compiler:WizModernImage-IS.bmp
 WizardSmallImageFile=compiler:WizModernSmallImage-IS.bmp
 SetupIconFile=Setup.ico
+#ifndef NOSIGNTOOL
 SignTool=ispacksigntool
 SignedUninstaller=yes
+#endif
 
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
