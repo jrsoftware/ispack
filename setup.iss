@@ -89,6 +89,7 @@ Source: "{#isfiles}\Languages\SerbianCyrillic.isl"; DestDir: "{app}\Languages"; 
 Source: "{#isfiles}\Languages\SerbianLatin.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Slovenian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Spanish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\Turkish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Ukrainian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\WizModernImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\WizModernImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
