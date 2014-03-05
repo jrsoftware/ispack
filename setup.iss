@@ -85,6 +85,7 @@ Source: "{#isfiles}\Languages\Norwegian.isl"; DestDir: "{app}\Languages"; Flags:
 Source: "{#isfiles}\Languages\Polish.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Portuguese.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Russian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
+Source: "{#isfiles}\Languages\ScottishGaelic.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\SerbianCyrillic.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\SerbianLatin.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
 Source: "{#isfiles}\Languages\Slovenian.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
