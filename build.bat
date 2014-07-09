@@ -22,7 +22,7 @@ rem  Once done the 2 installers can be found in Output
 
 setlocal
 
-set VER=5.5.4
+set VER=5.5.5
 
 echo Building Inno Setup QuickStart Pack %VER%...
 echo.
