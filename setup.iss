@@ -56,8 +56,7 @@ Source: "{#isfiles}\ISetup.chm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\ISPP.chm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Compil32.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\isscint.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISCC.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not ISPPCheck
-Source: "{#isfiles}\ISPPCC.exe"; DestDir: "{app}"; DestName: "ISCC.exe"; Flags: ignoreversion; Check: ISPPCheck
+Source: "{#isfiles}\ISCC.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\ISCmplr.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\ISPP.dll"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
 Source: "{#isfiles}\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
