@@ -42,7 +42,7 @@ set ISSRCROOT=
 call .\buildsettings.bat
 if "%ISSRCROOT%"=="" goto buildsettingserror
 
-echo - Running isetup.exe
+echo - Running isetup-%VER%.exe
 %ISSRCROOT%\Output\isetup-%VER%.exe /silent /ispp=1 /portable=1 /dir=isfiles 
 if errorlevel 1 goto failed
 echo - Handling ISCC files
@@ -70,7 +70,7 @@ if errorlevel 1 goto failed
 echo ANSI setup done
 pause
 
-echo - Running isetup-unicode.exe
+echo - Running isetup-%VER%-unicode.exe
 %ISSRCROOT%\Output\isetup-%VER%-unicode.exe /silent /ispp=1 /portable=1 /dir=isfiles-unicode
 if errorlevel 1 goto failed
 echo - Handling ISCC files
