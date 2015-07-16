@@ -14,12 +14,13 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.5
+AppVersion=5.5.6
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
 AppUpdatesURL=http://www.innosetup.com/
 AppMutex=InnoSetupCompilerAppMutex,Global\InnoSetupCompilerAppMutex
+SetupMutex=InnoSetupCompilerSetupMutex,Global\InnoSetupCompilerSetupMutex
 MinVersion=0,5.0
 DefaultDirName={pf}\Inno Setup 5
 DefaultGroupName=Inno Setup 5
