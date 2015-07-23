@@ -21,7 +21,7 @@ rem  Once done the 2 installers can be found in Output
 
 setlocal
 
-set VER=5.5.6
+set VER=5.5.7-dev
 
 echo Building Inno Setup QuickStart Pack %VER%...
 echo.
@@ -48,7 +48,7 @@ echo - Setup.exe
 if exist .\setup-sign.bat (
   call .\setup-sign.bat isfiles
 ) else (
-  isfiles\isppcc setup.iss /q /DNOSIGNTOOL
+  isfiles\iscc setup.iss /q /DNOSIGNTOOL
 )
 if errorlevel 1 goto failed
 echo - Renaming files
@@ -67,7 +67,7 @@ echo - Setup.exe
 if exist .\setup-sign.bat (
   call .\setup-sign.bat isfiles-unicode
 ) else (
-  isfiles-unicode\isppcc setup.iss /q /DNOSIGNTOOL
+  isfiles-unicode\iscc setup.iss /q /DNOSIGNTOOL
 )
 if errorlevel 1 goto failed
 echo - Renaming files
