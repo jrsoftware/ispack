@@ -14,7 +14,6 @@ rem
 rem  This batch files does the following things:
 rem  -Install ANSI IS into isfiles
 rem  -Install Unicode IS into isfiles-unicode
-rem  -Copy over the 2 additional ISCC files stored by IS's build.bat
 rem  -Create ANSI Inno Setup QuickStart Pack installer
 rem  -Create Unicode Inno Setup QuickStart Pack installer
 rem
@@ -45,15 +44,6 @@ if "%ISSRCROOT%"=="" goto buildsettingserror
 echo - Running isetup-%VER%.exe
 %ISSRCROOT%\Output\isetup-%VER%.exe /silent /ispp=1 /portable=1 /dir=isfiles 
 if errorlevel 1 goto failed
-echo - Handling ISCC files
-cd isfiles
-if errorlevel 1 goto failed
-move /y ISCC.exe ISPPCC.exe
-if errorlevel 1 goto failed
-copy %ISSRCROOT%\Output\ISCC-%VER%.exe ISCC.exe
-if errorlevel 1 goto failed
-cd ..
-if errorlevel 1 goto failed
 echo - Setup.exe
 if exist .\setup-sign.bat (
   call .\setup-sign.bat isfiles
@@ -72,15 +62,6 @@ pause
 
 echo - Running isetup-%VER%-unicode.exe
 %ISSRCROOT%\Output\isetup-%VER%-unicode.exe /silent /ispp=1 /portable=1 /dir=isfiles-unicode
-if errorlevel 1 goto failed
-echo - Handling ISCC files
-cd isfiles-unicode
-if errorlevel 1 goto failed
-move /y ISCC.exe ISPPCC.exe
-if errorlevel 1 goto failed
-copy %ISSRCROOT%\Output\ISCC-%VER%-unicode.exe ISCC.exe
-if errorlevel 1 goto failed
-cd ..
 if errorlevel 1 goto failed
 echo - Setup.exe
 if exist .\setup-sign.bat (
