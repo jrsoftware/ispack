@@ -14,7 +14,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.6
+AppVersion=5.5.7
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
@@ -39,6 +39,8 @@ SetupIconFile=Setup.ico
 SignTool=ispacksigntool
 SignedUninstaller=yes
 #endif
+;needed for isxdl.dll
+DEPCompatible=no
 
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
@@ -132,6 +134,11 @@ Source: "{#isfiles}\Examples\MyDll.dll"; DestDir: "{app}\Examples"; Flags: ignor
 Source: "{#isfiles}\Examples\MyDll\C\MyDll.c"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyDll\C\MyDll.def"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyDll\C\MyDll.dsp"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C#\MyDll.cs"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C#\MyDll.csproj"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C#\MyDll.sln"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C#\packages.config"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
+Source: "{#isfiles}\Examples\MyDll\C#\Properties\AssemblyInfo.cs"; DestDir: "{app}\Examples\MyDll\C#\Properties"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyDll\Delphi\MyDll.dpr"; DestDir: "{app}\Examples\MyDll\Delphi"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\ISPPExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\ISPPExample1License.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
@@ -164,6 +171,7 @@ Type: files; Name: "{app}\Examples\Output\setup.exe"
 Type: files; Name: "{app}\Examples\Output\setup-*.bin"
 Type: dirifempty; Name: "{app}\Examples\Output"
 Type: dirifempty; Name: "{app}\Examples\MyDll\Delphi"
+Type: dirifempty; Name: "{app}\Examples\MyDll\C#"
 Type: dirifempty; Name: "{app}\Examples\MyDll\C"
 Type: dirifempty; Name: "{app}\Examples\MyDll"
 Type: dirifempty; Name: "{app}\Examples"
