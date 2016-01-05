@@ -67,7 +67,7 @@ echo - Setup.exe
 if exist .\setup-sign.bat (
   call .\setup-sign.bat isfiles-unicode
 ) else (
-  isfiles-unicode\iscc setup.iss /q /DNOSIGNTOOL
+  isfiles-unicode\iscc setup.iss /qp /DNOSIGNTOOL
 )
 if errorlevel 1 goto failed
 echo - Renaming files
