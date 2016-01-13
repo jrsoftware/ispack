@@ -14,7 +14,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.7
+AppVersion=5.5.8
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
@@ -37,6 +37,7 @@ WizardSmallImageFile=compiler:WizModernSmallImage-IS.bmp
 SetupIconFile=Setup.ico
 #ifndef NOSIGNTOOL
 SignTool=ispacksigntool
+SignTool=ispacksigntool256
 SignedUninstaller=yes
 #endif
 ;needed for isxdl.dll
