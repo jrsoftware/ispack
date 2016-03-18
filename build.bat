@@ -21,7 +21,7 @@ rem  Once done the 2 installers can be found in Output
 
 setlocal
 
-set VER=5.5.8
+set VER=5.5.9
 
 echo Building Inno Setup QuickStart Pack %VER%...
 echo.
@@ -54,7 +54,7 @@ if errorlevel 1 goto failed
 echo - Renaming files
 cd output
 if errorlevel 1 goto failed
-move /y setup.exe ispack-%VER%.exe
+move /y mysetup.exe ispack-%VER%.exe
 cd ..
 if errorlevel 1 goto failed
 echo ANSI setup done
@@ -73,7 +73,7 @@ if errorlevel 1 goto failed
 echo - Renaming files
 cd output
 if errorlevel 1 goto failed
-move /y setup.exe ispack-%VER%-unicode.exe
+move /y mysetup.exe ispack-%VER%-unicode.exe
 cd ..
 if errorlevel 1 goto failed
 echo Unicode setup done

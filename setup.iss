@@ -14,7 +14,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.8
+AppVersion=5.5.9
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
@@ -88,13 +88,11 @@ Source: "{#isfiles}\Examples\Example1.iss"; DestDir: "{app}\Examples"; Flags: ig
 Source: "{#isfiles}\Examples\Example2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Example3.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\64Bit.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\64BitThreeArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\64BitTwoArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Components.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Languages.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyProg.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyProg-x64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyProg-IA64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyProg.chm"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Readme.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Readme-Dutch.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
