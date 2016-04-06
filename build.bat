@@ -41,8 +41,8 @@ set ISSRCROOT=
 call .\buildsettings.bat
 if "%ISSRCROOT%"=="" goto buildsettingserror
 
-echo - Running isetup-%VER%.exe
-%ISSRCROOT%\Output\isetup-%VER%.exe /silent /ispp=1 /portable=1 /dir=isfiles 
+echo - Running innosetup-%VER%.exe
+%ISSRCROOT%\Output\innosetup-%VER%.exe /silent /ispp=1 /portable=1 /dir=isfiles 
 if errorlevel 1 goto failed
 echo - Setup.exe
 if exist .\setup-sign.bat (
@@ -54,14 +54,14 @@ if errorlevel 1 goto failed
 echo - Renaming files
 cd output
 if errorlevel 1 goto failed
-move /y mysetup.exe ispack-%VER%.exe
+move /y mysetup.exe innosetup-qsp-%VER%.exe
 cd ..
 if errorlevel 1 goto failed
 echo ANSI setup done
 pause
 
-echo - Running isetup-%VER%-unicode.exe
-%ISSRCROOT%\Output\isetup-%VER%-unicode.exe /silent /ispp=1 /portable=1 /dir=isfiles-unicode
+echo - Running innosetup-%VER%-unicode.exe
+%ISSRCROOT%\Output\innosetup-%VER%-unicode.exe /silent /ispp=1 /portable=1 /dir=isfiles-unicode
 if errorlevel 1 goto failed
 echo - Setup.exe
 if exist .\setup-sign.bat (
@@ -73,7 +73,7 @@ if errorlevel 1 goto failed
 echo - Renaming files
 cd output
 if errorlevel 1 goto failed
-move /y mysetup.exe ispack-%VER%-unicode.exe
+move /y mysetup.exe innosetup-qsp-%VER%-unicode.exe
 cd ..
 if errorlevel 1 goto failed
 echo Unicode setup done
