@@ -104,6 +104,9 @@ Source: "{#isfiles}\Examples\CodeDll.iss"; DestDir: "{app}\Examples"; Flags: ign
 Source: "{#isfiles}\Examples\CodeAutomation.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\CodeAutomation2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\CodePrepareToInstall.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+#ifdef UNICODE
+Source: "{#isfiles}\Examples\UnicodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+#endif
 Source: "{#isfiles}\Examples\UninstallCodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyDll.dll"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\MyDll\C\MyDll.c"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
@@ -127,6 +130,7 @@ Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: exter
 ;remove unicode-only files if needed
 #ifndef UNICODE
 Type: files; Name: "{app}\Languages\*.islu"
+Type: files; Name: "{app}\Examples\UnicodeExample1.iss"
 #endif
 ;optional ISPP files (leave ISPP.chm)
 Type: files; Name: {app}\ISPP.dll; Check: not ISPPCheck
