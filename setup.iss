@@ -14,7 +14,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 5
-AppVersion=5.5.9
+AppVersion=5.6.0
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
@@ -142,8 +142,6 @@ Type: files; Name: {app}\Builtins.iss
 Type: files; Name: {app}\ISCrypt.dll
 ;optional desktop icon files
 Type: files; Name: {commondesktop}\Inno Setup Compiler.lnk
-;older versions created the desktop icon under {userdesktop}
-Type: files; Name: "{userdesktop}\Inno Setup Compiler.lnk"
 
 [UninstallDelete]
 Type: files; Name: "{app}\Examples\Output\setup.exe"
