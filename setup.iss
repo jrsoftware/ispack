@@ -43,6 +43,32 @@ SignedUninstaller=yes
 ;needed for isxdl.dll
 DEPCompatible=no
 
+[Languages]
+Name: english; MessagesFile: "files\Default.isl"
+
+#sub ProcessFoundFile
+  #define FileName FindGetFileName(FindHandle)
+  #define Name LowerCase(RemoveFileExt(FileName))
+  #define MessagesFile PathName + FileName
+  #pragma message "Generating [Languages] entry with name " + Name
+  Name: {#Name}; MessagesFile: {#MessagesFile}
+#endsub
+
+#define PathName "files\Languages\"
+#define FindHandle
+#define FindResult
+
+#for {FindHandle = FindResult = FindFirst(PathName + "*.isl", 0); FindResult; FindResult = FindNext(FindHandle)} ProcessFoundFile
+#if FindHandle
+  #expr FindClose(FindHandle)
+#endif
+#ifdef UNICODE
+  #for {FindHandle = FindResult = FindFirst(PathName + "*.islu", 0); FindResult; FindResult = FindNext(FindHandle)} ProcessFoundFile
+  #if FindHandle
+    #expr FindClose(FindHandle)
+  #endif
+#endif
+
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
 ;Name: fileassoc; Description: "{cm:AssocFileExtension,Inno Setup,.iss}"
