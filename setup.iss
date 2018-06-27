@@ -43,6 +43,64 @@ SignedUninstaller=yes
 ;needed for isxdl.dll
 DEPCompatible=no
 
+#define MatchingExtension(str FileName, str Extension) \
+  SameText(ExtractFileExt(FileName), Extension)
+
+#sub ProcessFoundLanguagesFile
+  #define FileName FindGetFileName(FindHandle)
+  #if MatchingExtension(FileName, FindBaseExtension) ; Some systems also return .islu files when asked for *.isl
+    #define Name LowerCase(RemoveFileExt(FileName))
+    #define MessagesFile FindPathName + FileName
+    #pragma message "Generating [Languages] entry with name " + Name + ": " + MessagesFile
+    Name: {#Name}; MessagesFile: {#MessagesFile}
+  #endif
+#endsub
+
+#sub ProcessFoundCustomMessagesFile
+  #define FileName FindGetFileName(FindHandle)
+  #if MatchingExtension(FileName, FindBaseExtension) ; See above
+    #define CustomMessagesFile FindPathName + FileName
+    #pragma message "Including CustomMessages file: " + CustomMessagesFile
+    #include CustomMessagesFile
+  #endif
+#endsub
+
+#define FindPathName
+#define FindBaseExtension
+#define FindType
+#define FindHandle
+#define FindResult
+
+#sub DoFindFilesLoop
+  #for {FindHandle = FindResult = FindFirst(FindPathName + "*." + FindBaseExtension, 0); FindResult; FindResult = FindNext(FindHandle)} FindType == 0 ? ProcessFoundLanguagesFile : ProcessFoundCustomMessagesFile
+  #if FindHandle
+    #expr FindClose(FindHandle)
+  #endif
+#endsub
+
+#sub DoFindFiles
+  #expr DoFindFilesLoop
+  #ifdef UNICODE
+    #expr FindBaseExtension = FindBaseExtension + "u"
+    #expr DoFindFilesLoop
+  #endif
+#endsub
+
+#define FindFiles(str PathName, str BaseExtension, int Type) \
+  FindPathName = PathName, FindBaseExtension = BaseExtension, FindType = Type, \
+  DoFindFiles
+
+[Languages]
+Name: english; MessagesFile: "files\Default.isl"
+; Generate [Languages] entries for all official translations
+#expr FindFiles("files\Languages\", "isl", 0)
+; #include any translations for [CustomMessages] (includes the default custom messages)
+#expr FindFiles("files\Languages\Setup\", "iss", 1)
+
+[Messages]
+; Two "Setup" on the same line looks weird, so put a line break in between
+english.WelcomeLabel1=Welcome to the Inno Setup QuickStart Pack%nSetup Wizard
+
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
 ;Name: fileassoc; Description: "{cm:AssocFileExtension,Inno Setup,.iss}"
