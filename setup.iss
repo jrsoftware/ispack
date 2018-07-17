@@ -1,9 +1,9 @@
 ; Inno Setup
-; Copyright (C) 1997-2013 Jordan Russell. All rights reserved.
+; Copyright (C) 1997-2018 Jordan Russell. All rights reserved.
 ; Portions by Martijn Laan
 ; For conditions of distribution and use, see LICENSE.TXT.
 ;
-; Inno Setup QuickStart Pack Setup script by Martijn Laan
+; Inno Setup QuickStart Pack Setup script
 
 #ifdef UNICODE
   #define isfiles "isfiles-unicode"
@@ -21,7 +21,6 @@ AppSupportURL=http://www.innosetup.com/
 AppUpdatesURL=http://www.innosetup.com/
 AppMutex=InnoSetupCompilerAppMutex,Global\InnoSetupCompilerAppMutex
 SetupMutex=InnoSetupCompilerSetupMutex,Global\InnoSetupCompilerSetupMutex
-MinVersion=0,5.0
 DefaultDirName={pf}\Inno Setup 5
 DefaultGroupName=Inno Setup 5
 AllowNoIcons=yes
@@ -46,6 +45,25 @@ DEPCompatible=no
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
 ;Name: fileassoc; Description: "{cm:AssocFileExtension,Inno Setup,.iss}"
+
+[InstallDelete]
+;remove unicode-only files if needed
+#ifndef UNICODE
+Type: files; Name: "{app}\Languages\*.islu"
+Type: files; Name: "{app}\Examples\UnicodeExample1.iss"
+#endif
+;optional ISPP files (leave ISPP.chm)
+Type: files; Name: {app}\ISPP.dll; Check: not ISPPCheck
+Type: files; Name: {app}\ISPPBuiltins.iss; Check: not ISPPCheck
+;old ISPP files
+Type: files; Name: {app}\ISCmplr.dls
+Type: files; Name: {app}\Builtins.iss
+;optional ISCrypt files
+Type: files; Name: {app}\ISCrypt.dll
+;optional desktop icon files
+Type: files; Name: {commondesktop}\Inno Setup Compiler.lnk; Tasks: not desktopicon
+;old FAQ file
+Type: files; Name: "{app}\isfaq.htm"
 
 [Files]
 ;first the files used by [Code] so these can be quickly decompressed despite solid compression
@@ -83,7 +101,6 @@ Source: "{#isfiles}\islzma.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\islzma32.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\islzma64.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\whatsnew.htm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\isfaq.htm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Example1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Example2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{#isfiles}\Examples\Example3.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
@@ -126,23 +143,6 @@ Source: "Setup.ico"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "{tmp}\ISCrypt.dll"; DestDir: "{app}"; Flags: external ignoreversion; Check: ISCryptCheck
 Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: external ignoreversion; Check: not ModifyingCheck
 
-[InstallDelete]
-;remove unicode-only files if needed
-#ifndef UNICODE
-Type: files; Name: "{app}\Languages\*.islu"
-Type: files; Name: "{app}\Examples\UnicodeExample1.iss"
-#endif
-;optional ISPP files (leave ISPP.chm)
-Type: files; Name: {app}\ISPP.dll; Check: not ISPPCheck
-Type: files; Name: {app}\ISPPBuiltins.iss; Check: not ISPPCheck
-;old ISPP files
-Type: files; Name: {app}\ISCmplr.dls
-Type: files; Name: {app}\Builtins.iss
-;optional ISCrypt files
-Type: files; Name: {app}\ISCrypt.dll
-;optional desktop icon files
-Type: files; Name: {commondesktop}\Inno Setup Compiler.lnk
-
 [UninstallDelete]
 Type: files; Name: "{app}\Examples\Output\setup.exe"
 Type: files; Name: "{app}\Examples\Output\setup-*.bin"
@@ -153,12 +153,15 @@ Type: dirifempty; Name: "{app}\Examples\MyDll\C"
 Type: dirifempty; Name: "{app}\Examples\MyDll"
 Type: dirifempty; Name: "{app}\Examples"
 
+[INI]
+Filename: "{app}\isfaq.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://www.jrsoftware.org/isfaq.php" 
+
 [Icons]
 Name: "{group}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.5"
 Name: "{group}\Inno Setup Documentation"; Filename: "{app}\ISetup.chm";
 Name: "{group}\Inno Setup Example Scripts"; Filename: "{app}\Examples\";
 Name: "{group}\Inno Setup Preprocessor Documentation"; Filename: "{app}\ISPP.chm";
-Name: "{group}\Inno Setup FAQ"; Filename: "{app}\isfaq.htm";
+Name: "{group}\Inno Setup FAQ"; Filename: "{app}\isfaq.url";
 Name: "{group}\Inno Setup Revision History"; Filename: "{app}\whatsnew.htm";
 Name: "{commondesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.5"; Tasks: desktopicon; Check: not AnyIDECheck
 
