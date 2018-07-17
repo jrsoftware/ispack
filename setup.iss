@@ -13,16 +13,16 @@
 
 [Setup]
 AppName=Inno Setup QuickStart Pack
-AppId=Inno Setup 5
-AppVersion=5.6.1
+AppId=Inno Setup 6
+AppVersion=6.0.0
 AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
 AppUpdatesURL=http://www.innosetup.com/
 AppMutex=InnoSetupCompilerAppMutex,Global\InnoSetupCompilerAppMutex
 SetupMutex=InnoSetupCompilerSetupMutex,Global\InnoSetupCompilerSetupMutex
-DefaultDirName={pf}\Inno Setup 5
-DefaultGroupName=Inno Setup 5
+DefaultDirName={autopf}\Inno Setup 6
+DefaultGroupName=Inno Setup 6
 AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
@@ -157,13 +157,13 @@ Type: dirifempty; Name: "{app}\Examples"
 Filename: "{app}\isfaq.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://www.jrsoftware.org/isfaq.php" 
 
 [Icons]
-Name: "{group}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.5"
+Name: "{group}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.6"
 Name: "{group}\Inno Setup Documentation"; Filename: "{app}\ISetup.chm";
 Name: "{group}\Inno Setup Example Scripts"; Filename: "{app}\Examples\";
 Name: "{group}\Inno Setup Preprocessor Documentation"; Filename: "{app}\ISPP.chm";
 Name: "{group}\Inno Setup FAQ"; Filename: "{app}\isfaq.url";
 Name: "{group}\Inno Setup Revision History"; Filename: "{app}\whatsnew.htm";
-Name: "{commondesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.5"; Tasks: desktopicon; Check: not AnyIDECheck
+Name: "{commondesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.6"; Tasks: desktopicon; Check: not AnyIDECheck
 
 [Run]
 Filename: "{tmp}\innoide-setup.exe"; StatusMsg: "Installing InnoIDE..."; Parameters: "/verysilent /group=""{groupname}\InnoIDE"" /mergetasks=""desktopicon,file_association"""; Flags: skipifdoesntexist; Check: InnoIDECheck; Tasks: desktopicon
