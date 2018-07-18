@@ -52,9 +52,6 @@ Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
 Type: files; Name: "{app}\Languages\*.islu"
 Type: files; Name: "{app}\Examples\UnicodeExample1.iss"
 #endif
-;optional ISPP files (leave ISPP.chm)
-Type: files; Name: {app}\ISPP.dll; Check: not ISPPCheck
-Type: files; Name: {app}\ISPPBuiltins.iss; Check: not ISPPCheck
 ;old ISPP files
 Type: files; Name: {app}\ISCmplr.dls
 Type: files; Name: {app}\Builtins.iss
@@ -68,7 +65,6 @@ Type: files; Name: "{app}\isfaq.htm"
 [Files]
 ;first the files used by [Code] so these can be quickly decompressed despite solid compression
 Source: "otherfiles\IDE.ico"; Flags: dontcopy
-Source: "otherfiles\ISPP.ico"; Flags: dontcopy
 Source: "otherfiles\ISCrypt.ico"; Flags: dontcopy
 Source: "isxdlfiles\isxdl.dll"; Flags: dontcopy
 Source: "{#isfiles}\WizModernSmallImage-IS.bmp"; Flags: dontcopy
@@ -80,8 +76,8 @@ Source: "{#isfiles}\Compil32.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\isscint.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\ISCC.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\ISCmplr.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISPP.dll"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
-Source: "{#isfiles}\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion; Check: ISPPCheck
+Source: "{#isfiles}\ISPP.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#isfiles}\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Setup.e32"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\SetupLdr.e32"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#isfiles}\Default.isl"; DestDir: "{app}"; Flags: ignoreversion
@@ -181,8 +177,8 @@ Filename: "{app}\Compil32.exe"; Parameters: "/UNASSOC"; RunOnceId: "RemoveISSAss
 var
   Modifying, AllowInnoIDE: Boolean;
 
-  IDEPage, ISPPPage, ISCryptPage: TWizardPage;
-  InnoIDECheckBox, ISStudioCheckBox, ISPPCheckBox, ISCryptCheckBox: TCheckBox;
+  IDEPage, ISCryptPage: TWizardPage;
+  InnoIDECheckBox, ISStudioCheckBox, ISCryptCheckBox: TCheckBox;
   IDEOrg: Boolean;
 
   FilesDownloaded: Boolean;
@@ -378,20 +374,6 @@ begin
     InnoIDECheckBox := nil;
   end;
 
-  Caption := 'Inno Setup Preprocessor';
-  SubCaption1 := 'Would you like to install Inno Setup Preprocessor?';
-  IconFileName := 'ISPP.ico';
-  Label1Caption :=
-    'Inno Setup Preprocessor (ISPP) is an official add-on for Inno Setup. ISPP allows' +
-    ' you to conditionally compile parts of scripts, to use compile time variables in your scripts and to use built-in' +
-    ' functions which for example can read from the registry or INI files at compile time.' + #13#10#13#10 +
-    'ISPP also contains a special version of the ISCC command line compiler which can take variable definitions as command' +
-    ' line parameters and use them during compilation.';
-  Label2Caption := 'Select whether you would like to install ISPP, then click Next.';
-  CheckCaption := '&Install Inno Setup Preprocessor';
-
-  ISPPPage := CreateCustomOptionPage(IDEPage.ID, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISPPCheckBox);
-
   Caption := 'Encryption Support';
   SubCaption1 := 'Would you like to download encryption support?';
   IconFileName := 'ISCrypt.ico';
@@ -401,7 +383,7 @@ begin
   Label2Caption := 'Select whether you would like to download and install encryption support, then click Next.';
   CheckCaption := '&Download and install encryption support';
 
-  ISCryptPage := CreateCustomOptionPage(ISPPPage.ID, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISCryptCheckBox);
+  ISCryptPage := CreateCustomOptionPage(IDEPage.ID, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISCryptCheckBox);
 end;
 
 procedure InitializeWizard;
@@ -410,7 +392,6 @@ begin
 
   SetInnoIDECheckBoxChecked(GetPreviousData('IDE' {don't change}, '1') = '1');
   ISStudioCheckBox.Checked := GetPreviousData('ISStudio', '1') = '1';
-  ISPPCheckBox.Checked := GetPreviousData('ISPP', '1') = '1';
   ISCryptCheckBox.Checked := GetPreviousData('ISCrypt', '1') = '1';
 
   IDEOrg := GetInnoIDECheckBoxChecked or ISStudioCheckBox.Checked;
@@ -420,7 +401,6 @@ procedure RegisterPreviousData(PreviousDataKey: Integer);
 begin
   SetPreviousData(PreviousDataKey, 'IDE' {don't change}, IntToStr(Ord(GetInnoIDECheckBoxChecked)));
   SetPreviousData(PreviousDataKey, 'ISStudio', IntToStr(Ord(ISStudioCheckBox.Checked)));
-  SetPreviousData(PreviousDataKey, 'ISPP', IntToStr(Ord(ISPPCheckBox.Checked)));
   SetPreviousData(PreviousDataKey, 'ISCrypt', IntToStr(Ord(ISCryptCheckBox.Checked)));
 end;
 
@@ -500,11 +480,6 @@ end;
 function AnyIDECheck: Boolean;
 begin
   Result := InnoIDECheck or ISStudioCheck;
-end;
-
-function ISPPCheck: Boolean;
-begin
-  Result := ISPPCheckBox.Checked;
 end;
 
 function ISCryptCheck: Boolean;
