@@ -1,15 +1,9 @@
 ; Inno Setup
-; Copyright (C) 1997-2018 Jordan Russell. All rights reserved.
+; Copyright (C) 1997-2019 Jordan Russell. All rights reserved.
 ; Portions by Martijn Laan
 ; For conditions of distribution and use, see LICENSE.TXT.
 ;
 ; Inno Setup QuickStart Pack Setup script
-
-#ifdef UNICODE
-  #define isfiles "isfiles-unicode"
-#else
-  #define isfiles "isfiles"
-#endif
 
 [Setup]
 AppName=Inno Setup QuickStart Pack
@@ -19,22 +13,25 @@ AppPublisher=Martijn Laan
 AppPublisherURL=http://www.innosetup.com/
 AppSupportURL=http://www.innosetup.com/
 AppUpdatesURL=http://www.innosetup.com/
+VersionInfoCopyright=Copyright (C) 1997-2019 Jordan Russell. Portions Copyright (C) 2000-2019 Martijn Laan.
 AppMutex=InnoSetupCompilerAppMutex,Global\InnoSetupCompilerAppMutex
 SetupMutex=InnoSetupCompilerSetupMutex,Global\InnoSetupCompilerSetupMutex
+WizardStyle=modern
 DefaultDirName={autopf}\Inno Setup 6
 DefaultGroupName=Inno Setup 6
+PrivilegesRequiredOverridesAllowed=dialog
 AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
 SolidCompression=yes
 Uninstallable=not PortableCheck
 UninstallDisplayIcon={app}\Compil32.exe
-LicenseFile={#isfiles}\license.txt
+LicenseFile=isfiles\license.txt
 AppModifyPath="{app}\Ispack-setup.exe" /modify=1
 WizardImageFile=compiler:WizModernImage-IS.bmp
 WizardSmallImageFile=compiler:WizModernSmallImage-IS.bmp
 SetupIconFile=Setup.ico
-#ifndef NOSIGNTOOL
+#ifdef SIGNTOOL
 SignTool=ispacksigntool
 SignTool=ispacksigntool256
 SignedUninstaller=yes
@@ -47,18 +44,13 @@ Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
 ;Name: fileassoc; Description: "{cm:AssocFileExtension,Inno Setup,.iss}"
 
 [InstallDelete]
-;remove unicode-only files if needed
-#ifndef UNICODE
-Type: files; Name: "{app}\Languages\*.islu"
-Type: files; Name: "{app}\Examples\UnicodeExample1.iss"
-#endif
 ;old ISPP files
 Type: files; Name: {app}\ISCmplr.dls
 Type: files; Name: {app}\Builtins.iss
 ;optional ISCrypt files
 Type: files; Name: {app}\ISCrypt.dll
 ;optional desktop icon files
-Type: files; Name: {commondesktop}\Inno Setup Compiler.lnk; Tasks: not desktopicon
+Type: files; Name: {autodesktop}\Inno Setup Compiler.lnk; Tasks: not desktopicon
 ;old FAQ file
 Type: files; Name: "{app}\isfaq.htm"
 
@@ -67,72 +59,10 @@ Type: files; Name: "{app}\isfaq.htm"
 Source: "otherfiles\IDE.ico"; Flags: dontcopy
 Source: "otherfiles\ISCrypt.ico"; Flags: dontcopy
 Source: "isxdlfiles\isxdl.dll"; Flags: dontcopy
-Source: "{#isfiles}\WizModernSmallImage-IS.bmp"; Flags: dontcopy
+Source: "isfiles\WizModernSmallImage-IS.bmp"; Flags: dontcopy
 ;other files
-Source: "{#isfiles}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISetup.chm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISPP.chm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\Compil32.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\isscint.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISCC.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISCmplr.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISPP.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\ISPPBuiltins.iss"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\Setup.e32"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\SetupLdr.e32"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\Default.isl"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\Languages\*.isl"; DestDir: "{app}\Languages"; Flags: ignoreversion
-#ifdef UNICODE
-Source: "{#isfiles}\Languages\*.islu"; DestDir: "{app}\Languages"; Flags: ignoreversion
-#endif
-Source: "{#isfiles}\WizModernImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\WizModernImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\WizModernSmallImage.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\WizModernSmallImage-IS.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\iszlib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\isunzlib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\isbzip.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\isbunzip.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\islzma.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\islzma32.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\islzma64.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\whatsnew.htm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Example1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Example2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Example3.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\64Bit.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\64BitTwoArch.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Components.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Languages.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyProg.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyProg-x64.exe"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyProg.chm"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Readme.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Readme-Dutch.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\Readme-German.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodeDlg.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodeClasses.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodeDll.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodeAutomation.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodeAutomation2.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\CodePrepareToInstall.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-#ifdef UNICODE
-Source: "{#isfiles}\Examples\UnicodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-#endif
-Source: "{#isfiles}\Examples\UninstallCodeExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll.dll"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C\MyDll.c"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C\MyDll.def"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C\MyDll.dsp"; DestDir: "{app}\Examples\MyDll\C"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C#\MyDll.cs"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C#\MyDll.csproj"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C#\MyDll.sln"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C#\packages.config"; DestDir: "{app}\Examples\MyDll\C#"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\C#\Properties\AssemblyInfo.cs"; DestDir: "{app}\Examples\MyDll\C#\Properties"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\MyDll\Delphi\MyDll.dpr"; DestDir: "{app}\Examples\MyDll\Delphi"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\ISPPExample1.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "{#isfiles}\Examples\ISPPExample1License.txt"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "isfiles\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
+Source: "isfiles\Examples\*"; DestDir: "{app}\Examples"; Flags: recursesubdirs ignoreversion
 Source: "Setup.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "Setup.ico"; DestDir: "{app}\Examples"; Flags: ignoreversion
 ;external files
@@ -140,6 +70,7 @@ Source: "{tmp}\ISCrypt.dll"; DestDir: "{app}"; Flags: external ignoreversion; Ch
 Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: external ignoreversion; Check: not ModifyingCheck
 
 [UninstallDelete]
+Type: files; Name: "{app}\isfaq.url"
 Type: files; Name: "{app}\Examples\Output\setup.exe"
 Type: files; Name: "{app}\Examples\Output\setup-*.bin"
 Type: dirifempty; Name: "{app}\Examples\Output"
@@ -159,7 +90,7 @@ Name: "{group}\Inno Setup Example Scripts"; Filename: "{app}\Examples\";
 Name: "{group}\Inno Setup Preprocessor Documentation"; Filename: "{app}\ISPP.chm";
 Name: "{group}\Inno Setup FAQ"; Filename: "{app}\isfaq.url";
 Name: "{group}\Inno Setup Revision History"; Filename: "{app}\whatsnew.htm";
-Name: "{commondesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.6"; Tasks: desktopicon; Check: not AnyIDECheck
+Name: "{autodesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.6"; Tasks: desktopicon; Check: not AnyIDECheck
 
 [Run]
 Filename: "{tmp}\innoide-setup.exe"; StatusMsg: "Installing InnoIDE..."; Parameters: "/verysilent /group=""{groupname}\InnoIDE"" /mergetasks=""desktopicon,file_association"""; Flags: skipifdoesntexist; Check: InnoIDECheck; Tasks: desktopicon
@@ -195,8 +126,8 @@ external 'isxdl_SetOption@files:isxdl.dll stdcall';
 
 function GetModuleHandle(lpModuleName: LongInt): LongInt;
 external 'GetModuleHandleA@kernel32.dll stdcall';
-function ExtractIcon(hInst: LongInt; lpszExeFileName: AnsiString; nIconIndex: LongInt): LongInt;
-external 'ExtractIconA@shell32.dll stdcall';
+function ExtractIcon(hInst: LongInt; lpszExeFileName: String; nIconIndex: LongInt): LongInt;
+external 'ExtractIconW@shell32.dll stdcall';
 function DrawIconEx(hdc: LongInt; xLeft, yTop: Integer; hIcon: LongInt; cxWidth, cyWidth: Integer; istepIfAniCur: LongInt; hbrFlickerFreeDraw, diFlags: LongInt): LongInt;
 external 'DrawIconEx@user32.dll stdcall';
 function DestroyIcon(hIcon: LongInt): LongInt;
@@ -267,10 +198,12 @@ begin
         with Bitmap do begin
           Width := 32;
           Height := 32;
-          Canvas.Brush.Color := WizardForm.Color;
+          Canvas.Brush.Color := Page.SurfaceColor;
           Canvas.FillRect(Rect);
           DrawIconEx(Canvas.Handle, 0, 0, hIcon, 32, 32, 0, 0, DI_NORMAL);
         end;
+        Width := Bitmap.Width;
+        Height := Bitmap.Width;
         Parent := Page.Surface;
       end;
     finally
@@ -284,6 +217,7 @@ begin
     AutoSize := False;
     Left := WizardForm.SelectDirLabel.Left;
     Width := Page.SurfaceWidth - Left;
+    Anchors := [akLeft, akTop, akRight];
     WordWrap := True;
     Caption := ALabel1Caption;
     Parent := Page.Surface;
@@ -294,6 +228,7 @@ begin
   with Label2 do begin
     Top := Label1.Top + Label1.Height + ScaleY(12);
     Width := Page.SurfaceWidth;
+    Anchors := [akLeft, akTop, akRight];
     WordWrap := True;
     Caption := ALabel2Caption;
     Parent := Page.Surface;
