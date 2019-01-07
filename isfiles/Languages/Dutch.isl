@@ -1,4 +1,4 @@
-; *** Inno Setup version 5.5.3+ Dutch messages ***
+; *** Inno Setup version 6.0.0+ Dutch messages ***
 ;
 ; This file is based on user-contributed translations by various authors
 ;
@@ -47,6 +47,16 @@ PowerUserPrivilegesRequired=U moet ingelogd zijn als systeembeheerder of als geb
 SetupAppRunningError=Setup heeft vastgesteld dat %1 op dit moment actief is.%n%nSluit alle vensters hiervan, en klik daarna op OK om verder te gaan, of op Annuleren om Setup af te sluiten.
 UninstallAppRunningError=Het verwijderprogramma heeft vastgesteld dat %1 op dit moment actief is.%n%nSluit alle vensters hiervan, en klik daarna op OK om verder te gaan, of op Annuleren om het verwijderen af te breken.
 
+; *** Startup questions
+PrivilegesRequiredOverrideInstruction=Kies installatie modus
+PrivilegesRequiredOverrideTaskDialogText1=%1 kan geïnstalleerd worden voor alle gebruikers (vereist aanmelding als een systeembeheerder), of voor u alleen.
+PrivilegesRequiredOverrideMsgBoxText1=%1 kan geïnstalleerd worden voor alle gebruikers (aanbevolen, maar vereist aanmelding als een systeembeheerder), of voor u alleen.%n%nWilt u voor alle gebruikers installeren?
+PrivilegesRequiredOverrideTaskDialogText2=%1 kan geïnstalleerd worden voor u alleen, of voor alle gebruikers (vereist aanmelding als een systeembeheerder).
+PrivilegesRequiredOverrideMsgBoxText2=%1 kan geïnstalleerd worden voor u alleen (aanbevolen), of voor alle gebruikers (vereist aanmelding als een systeembeheerder).%n%nWilt u voor u alleen installeren?
+PrivilegesRequiredOverrideAllUsers=Installeer voor alle gebruikers
+PrivilegesRequiredOverrideCurrentUser=Installeer voor mij alleen
+PrivilegesRequiredOverrideRecommended=%1 (aanbevolen)
+
 ; *** Misc. errors
 ErrorCreatingDir=Setup kan de map "%1" niet maken
 ErrorTooManyFilesInDir=Kan geen bestand maken in de map "%1" omdat deze te veel bestanden bevat
@@ -77,7 +87,7 @@ ButtonNewFolder=&Nieuwe map maken
 
 ; *** "Select Language" dialog messages
 SelectLanguageTitle=Taalkeuze voor Setup
-SelectLanguageLabel=Selecteer de taal welke Setup gebruikt tijdens de installatie:
+SelectLanguageLabel=Selecteer de taal die Setup gebruikt tijdens de installatie:
 
 ; *** Common wizard text
 ClickNext=Klik op Volgende om verder te gaan of op Annuleren om Setup af te sluiten.
@@ -267,6 +277,14 @@ ErrorRenamingTemp=Er is een fout opgetreden bij het hernoemen van een bestand in
 ErrorRegisterServer=Kan de DLL/OCX niet registreren: %1
 ErrorRegSvr32Failed=RegSvr32 mislukt met afsluitcode %1
 ErrorRegisterTypeLib=Kan de type library niet registreren: %1
+
+; *** Uninstall display name markings
+UninstallDisplayNameMark=%1 (%2)
+UninstallDisplayNameMarks=%1 (%2, %3)
+UninstallDisplayNameMark32Bit=32-bit
+UninstallDisplayNameMark64Bit=64-bit
+UninstallDisplayNameMarkAllUsers=Alle gebruikers
+UninstallDisplayNameMarkCurrentUser=Huidige gebruiker
 
 ; *** Post-installation errors
 ErrorOpeningReadme=Er is een fout opgetreden bij het openen van het Leesmij-bestand.

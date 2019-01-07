@@ -1,4 +1,4 @@
-; *** Inno Setup version 5.5.3+ English messages ***
+; *** Inno Setup version 6.0.0+ English messages ***
 ;
 ; To download user-contributed translations of this file, go to:
 ;   http://www.jrsoftware.org/files/istrans/
@@ -42,6 +42,7 @@ ErrorTitle=Error
 SetupLdrStartupMessage=This will install %1. Do you wish to continue?
 LdrCannotCreateTemp=Unable to create a temporary file. Setup aborted
 LdrCannotExecTemp=Unable to execute file in the temporary directory. Setup aborted
+HelpTextNote=
 
 ; *** Startup error messages
 LastErrorMessage=%1.%n%nError %2: %3
@@ -62,6 +63,16 @@ AdminPrivilegesRequired=You must be logged in as an administrator when installin
 PowerUserPrivilegesRequired=You must be logged in as an administrator or as a member of the Power Users group when installing this program.
 SetupAppRunningError=Setup has detected that %1 is currently running.%n%nPlease close all instances of it now, then click OK to continue, or Cancel to exit.
 UninstallAppRunningError=Uninstall has detected that %1 is currently running.%n%nPlease close all instances of it now, then click OK to continue, or Cancel to exit.
+
+; *** Startup questions
+PrivilegesRequiredOverrideInstruction=Choose install mode
+PrivilegesRequiredOverrideTaskDialogText1=%1 can be installed for all users (requires administrative privileges), or for you only.
+PrivilegesRequiredOverrideMsgBoxText1=%1 can be installed for all users (recommended, but requires administrative privileges), or for you only.%n%nInstall for all users?
+PrivilegesRequiredOverrideTaskDialogText2=%1 can be installed for you only, or for all users (requires administrative privileges).
+PrivilegesRequiredOverrideMsgBoxText2=%1 can be installed for you only (recommended), or for all users (requires administrative privileges).%n%nInstall for you only?
+PrivilegesRequiredOverrideAllUsers=Install for all users
+PrivilegesRequiredOverrideCurrentUser=Install for me only
+PrivilegesRequiredOverrideRecommended=%1 (recommended)
 
 ; *** Misc. errors
 ErrorCreatingDir=Setup was unable to create the directory "%1"
@@ -286,6 +297,14 @@ ErrorRenamingTemp=An error occurred while trying to rename a file in the destina
 ErrorRegisterServer=Unable to register the DLL/OCX: %1
 ErrorRegSvr32Failed=RegSvr32 failed with exit code %1
 ErrorRegisterTypeLib=Unable to register the type library: %1
+
+; *** Uninstall display name markings
+UninstallDisplayNameMark=%1 (%2)
+UninstallDisplayNameMarks=%1 (%2, %3)
+UninstallDisplayNameMark32Bit=32-bit
+UninstallDisplayNameMark64Bit=64-bit
+UninstallDisplayNameMarkAllUsers=All users
+UninstallDisplayNameMarkCurrentUser=Current user
 
 ; *** Post-installation errors
 ErrorOpeningReadme=An error occurred while trying to open the README file.
