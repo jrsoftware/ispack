@@ -36,7 +36,7 @@ SignTool=ispacksigntool
 SignTool=ispacksigntool256
 SignedUninstaller=yes
 #endif
-;needed for isxdl.dll
+; Needed for isxdl.dll
 DEPCompatible=no
 
 [Tasks]
@@ -44,28 +44,32 @@ Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
 ;Name: fileassoc; Description: "{cm:AssocFileExtension,Inno Setup,.iss}"
 
 [InstallDelete]
-;old ISPP files
+; Remove old ISPP files
 Type: files; Name: {app}\ISCmplr.dls
 Type: files; Name: {app}\Builtins.iss
-;optional ISCrypt files
+; Remove optional ISCrypt files
 Type: files; Name: {app}\ISCrypt.dll
-;optional desktop icon files
+; Remove desktop icon if needed
 Type: files; Name: {autodesktop}\Inno Setup Compiler.lnk; Tasks: not desktopicon
-;old FAQ file
+; Remove old FAQ file
 Type: files; Name: "{app}\isfaq.htm"
+; Remove old .islu files
+Type: files; Name: "{app}\Languages\*.islu"
+; Remove translations in case any got demoted
+Type: files; Name: "{app}\Languages\*.isl"
 
 [Files]
-;first the files used by [Code] so these can be quickly decompressed despite solid compression
+; First the files used by [Code] so these can be quickly decompressed despite solid compression
 Source: "otherfiles\IDE.ico"; Flags: dontcopy
 Source: "otherfiles\ISCrypt.ico"; Flags: dontcopy
 Source: "isxdlfiles\isxdl.dll"; Flags: dontcopy
 Source: "isfiles\WizModernSmallImage-IS.bmp"; Flags: dontcopy
-;other files
+; Other files
 Source: "isfiles\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 Source: "isfiles\Examples\*"; DestDir: "{app}\Examples"; Flags: recursesubdirs ignoreversion
 Source: "Setup.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "Setup.ico"; DestDir: "{app}\Examples"; Flags: ignoreversion
-;external files
+; External files
 Source: "{tmp}\ISCrypt.dll"; DestDir: "{app}"; Flags: external ignoreversion; Check: ISCryptCheck
 Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: external ignoreversion; Check: not ModifyingCheck
 
