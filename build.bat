@@ -12,43 +12,30 @@ rem
 rem  Calls setup-sign.bat if it exists, else creates setup.exe without signing
 rem
 rem  This batch files does the following things:
-rem  -Install ANSI IS into isfiles
-rem  -Install Unicode IS into isfiles-unicode
-rem  -Create ANSI Inno Setup QuickStart Pack installer
-rem  -Create Unicode Inno Setup QuickStart Pack installer
+rem  -Compiling files: copy some base files to root and install IS into isfiles
+rem  -Create Inno Setup QuickStart Pack installer
 rem
-rem  Once done the 2 installers can be found in Output
+rem  Once done the installer can be found in Output
 
 setlocal
 
-set VER=5.6.1
+set VER=6.0.0-beta
 
 echo Building Inno Setup QuickStart Pack %VER%...
 echo.
 
 cd /d %~dp0
 
-if exist buildsettings.bat goto buildsettingsfound
-:buildsettingserror
-echo buildsettings.bat is missing or incomplete. It needs to be created
-echo with the following lines, adjusted for your system:
-echo.
-echo   set ISSRCROOT=c:\issrc         [Path to Inno Setup source code]
-goto failed2
-
-:buildsettingsfound
-set ISSRCROOT=
-call .\buildsettings.bat
-if "%ISSRCROOT%"=="" goto buildsettingserror
-
-echo - Running innosetup-%VER%.exe
-%ISSRCROOT%\Output\innosetup-%VER%.exe /silent /ispp=1 /portable=1 /dir=isfiles 
+call .\compile.bat
 if errorlevel 1 goto failed
+echo Compiling files done
+pause
+
 echo - Setup.exe
 if exist .\setup-sign.bat (
-  call .\setup-sign.bat isfiles
+  call .\setup-sign.bat
 ) else (
-  isfiles\iscc setup.iss /qp /DNOSIGNTOOL
+  isfiles\iscc setup.iss
 )
 if errorlevel 1 goto failed
 echo - Renaming files
@@ -57,27 +44,7 @@ if errorlevel 1 goto failed
 move /y mysetup.exe innosetup-qsp-%VER%.exe
 cd ..
 if errorlevel 1 goto failed
-echo ANSI setup done
-pause
-
-echo - Running innosetup-%VER%-unicode.exe
-%ISSRCROOT%\Output\innosetup-%VER%-unicode.exe /silent /ispp=1 /portable=1 /dir=isfiles-unicode
-if errorlevel 1 goto failed
-echo - Setup.exe
-if exist .\setup-sign.bat (
-  call .\setup-sign.bat isfiles-unicode
-) else (
-  isfiles-unicode\iscc setup.iss /qp /DNOSIGNTOOL
-)
-if errorlevel 1 goto failed
-echo - Renaming files
-cd output
-if errorlevel 1 goto failed
-move /y mysetup.exe innosetup-qsp-%VER%-unicode.exe
-cd ..
-if errorlevel 1 goto failed
-echo Unicode setup done
-pause
+echo Creating Inno Setup QuickStart Pack installer done
 
 echo All done!
 pause
