@@ -5,6 +5,8 @@
 ;
 ; Inno Setup QuickStart Pack Setup script
 
+#include "donate.iss"
+
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 6

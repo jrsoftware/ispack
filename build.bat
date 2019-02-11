@@ -12,7 +12,7 @@ rem
 rem  Calls setup-sign.bat if it exists, else creates setup.exe without signing
 rem
 rem  This batch files does the following things:
-rem  -Compiling files: copy license.txt and install IS into isfiles
+rem  -Compiling files: copy some base files to root and install IS into isfiles
 rem  -Create Inno Setup QuickStart Pack installer
 rem
 rem  Once done the installer can be found in Output

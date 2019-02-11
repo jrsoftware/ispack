@@ -22,8 +22,12 @@ set ISSRCROOT=
 call .\compilesettings.bat
 if "%ISSRCROOT%"=="" goto compilesettingserror
 
-echo - Copying license.txt
+echo - Copying license.txt, donate.iss and donate.bmp
 copy %ISSRCROOT%\license.txt .
+if errorlevel 1 goto failed
+copy %ISSRCROOT%\donate.iss .
+if errorlevel 1 goto failed
+copy %ISSRCROOT%\donate.bmp .
 if errorlevel 1 goto failed
 
 if "%VER%"=="" (
