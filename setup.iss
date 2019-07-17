@@ -71,6 +71,8 @@ Source: "isfiles\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 Source: "isfiles\Examples\*"; DestDir: "{app}\Examples"; Flags: recursesubdirs ignoreversion
 Source: "Setup.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "Setup.ico"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "Donate.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "Donate.bmp"; DestDir: "{app}\Examples"; Flags: ignoreversion
 ; External files
 Source: "{tmp}\ISCrypt.dll"; DestDir: "{app}"; Flags: external ignoreversion; Check: ISCryptCheck
 Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: external ignoreversion; Check: not ModifyingCheck
@@ -467,7 +469,7 @@ end;
 function GetISStudioCmdLine(S: String): String;
 begin
   Result := '/verysilent /group="' + ExpandConstant('{groupname}') + '\Inno Script Studio" /mergetasks="';
-  if not IsTaskSelected('desktopicon') then
+  if not WizardIsTaskSelected('desktopicon') then
     Result := Result + '!';
   Result := Result + 'desktopicon,issfileassociation"';
   if PortableCheck then
