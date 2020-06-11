@@ -175,6 +175,8 @@ begin
   with CheckBox do begin
     Top := PreviousControl.Top + PreviousControl.Height + ScaleY(12);
     Width := Page.SurfaceWidth;
+    Height := ScaleY(Height);
+    Anchors := [akLeft, akTop, akRight];
     Caption := ACheckCaption;
     Parent := Page.Surface;
   end;
