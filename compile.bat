@@ -25,9 +25,11 @@ if "%ISSRCROOT%"=="" goto compilesettingserror
 echo - Copying license.txt, donate.iss and donate.bmp
 copy %ISSRCROOT%\license.txt .
 if errorlevel 1 goto failed
-copy %ISSRCROOT%\donate.iss .
+copy %ISSRCROOT%\isdonateandmail.iss .
 if errorlevel 1 goto failed
-copy %ISSRCROOT%\donate.bmp .
+copy %ISSRCROOT%\isdonate.bmp .
+if errorlevel 1 goto failed
+copy %ISSRCROOT%\ismail.bmp .
 if errorlevel 1 goto failed
 
 if "%VER%"=="" (

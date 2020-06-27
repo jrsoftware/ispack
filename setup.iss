@@ -1,11 +1,12 @@
+; -- Setup.iss --
+; Inno Setup QuickStart Pack's own Setup script
+
 ; Inno Setup
 ; Copyright (C) 1997-2020 Jordan Russell. All rights reserved.
-; Portions by Martijn Laan
+; Portions Copyright (C) 2000-2020 Martijn Laan. All rights reserved.
 ; For conditions of distribution and use, see LICENSE.TXT.
-;
-; Inno Setup QuickStart Pack Setup script
 
-#include "donate.iss"
+#include "isdonateandmail.iss"
 
 [Setup]
 AppName=Inno Setup QuickStart Pack
@@ -59,6 +60,9 @@ Type: files; Name: "{app}\isfaq.htm"
 Type: files; Name: "{app}\Languages\*.islu"
 ; Remove translations in case any got demoted
 Type: files; Name: "{app}\Languages\*.isl"
+; Remove old example files
+Type: files; Name: "{app}\Examples\Donate.iss"
+Type: files; Name: "{app}\Examples\Donate.bmp"
 
 [Files]
 ; First the files used by [Code] so these can be quickly decompressed despite solid compression
@@ -71,8 +75,9 @@ Source: "isfiles\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 Source: "isfiles\Examples\*"; DestDir: "{app}\Examples"; Flags: recursesubdirs ignoreversion
 Source: "Setup.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
 Source: "Setup.ico"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "Donate.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
-Source: "Donate.bmp"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "IsDonateAndMail.iss"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "IsDonate.bmp"; DestDir: "{app}\Examples"; Flags: ignoreversion
+Source: "IsMail.bmp"; DestDir: "{app}\Examples"; Flags: ignoreversion
 ; External files
 Source: "{tmp}\ISCrypt.dll"; DestDir: "{app}"; Flags: external ignoreversion; Check: ISCryptCheck
 Source: "{srcexe}"; DestDir: "{app}"; DestName: "Ispack-setup.exe"; Flags: external ignoreversion; Check: not ModifyingCheck
