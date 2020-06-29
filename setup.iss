@@ -109,8 +109,7 @@ Name: "{autodesktop}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; Worki
 Filename: "{tmp}\innoide-setup.exe"; StatusMsg: "Installing InnoIDE..."; Parameters: "/verysilent /group=""{groupname}\InnoIDE"" /mergetasks=""desktopicon,file_association"""; Flags: skipifdoesntexist; Check: InnoIDECheck; Tasks: desktopicon
 Filename: "{tmp}\innoide-setup.exe"; StatusMsg: "Installing InnoIDE..."; Parameters: "/verysilent /group=""{groupname}\InnoIDE"" /mergetasks=""!desktopicon,file_association"""; Flags: skipifdoesntexist; Check: InnoIDECheck; Tasks: not desktopicon
 Filename: "{tmp}\isstudio-setup.exe"; StatusMsg: "Installing Inno Script Studio..."; Parameters: {code:GetISStudioCmdLine}; Flags: skipifdoesntexist; Check: ISStudioCheck
-Filename: "{app}\Compil32.exe"; StatusMsg: "Registering compiler path in Inno Script Studio options..."; Parameters: "/ASSOCISSTUDIO"; Check: ISStudioCheck
-Filename: "{app}\Compil32.exe"; StatusMsg: "{cm:AssocingFileExtension,Inno Setup,.iss}"; Parameters: "/ASSOC"; Check: not AnyIDECheck
+Filename: "{app}\Compil32.exe"; Parameters: "/ASSOC"; StatusMsg: "{cm:AssocingFileExtension,Inno Setup,.iss}"; Check: not AnyIDECheck
 Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,Inno Setup}"; Flags: nowait postinstall skipifsilent; Check: not AnyIDECheck and not ModifyingCheck
 Filename: "{code:GetInnoIDEPath}\InnoIDE.exe"; WorkingDir: "{code:GetInnoIDEPath}"; Description: "{cm:LaunchProgram,InnoIDE}"; Flags: nowait postinstall skipifsilent skipifdoesntexist; Check: InnoIDECheck and not ModifyingCheck
 Filename: "{code:GetISStudioPath}\ISStudio.exe"; WorkingDir: "{code:GetISStudioPath}"; Description: "{cm:LaunchProgram,Inno Script Studio}"; Flags: nowait postinstall skipifsilent skipifdoesntexist; Check: ISStudioCheck and not ModifyingCheck
