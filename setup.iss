@@ -39,8 +39,6 @@ SignTool=ispacksigntool
 SignTool=ispacksigntool256
 SignedUninstaller=yes
 #endif
-; Needed for isxdl.dll
-DEPCompatible=no
 
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
@@ -68,8 +66,6 @@ Type: files; Name: "{app}\Examples\Donate.bmp"
 ; First the files used by [Code] so these can be quickly decompressed despite solid compression
 Source: "otherfiles\IDE.ico"; Flags: dontcopy
 Source: "otherfiles\ISCrypt.ico"; Flags: dontcopy
-Source: "isxdlfiles\isxdl.dll"; Flags: dontcopy
-Source: "isfiles\WizModernSmallImage-IS.bmp"; Flags: dontcopy
 ; Other files
 Source: "isfiles\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 Source: "isfiles\Examples\*"; DestDir: "{app}\Examples"; Flags: recursesubdirs ignoreversion
@@ -129,13 +125,6 @@ var
   
   InnoIDEPath, ISStudioPath: String;
   InnoIDEPathRead, ISStudioPathRead: Boolean;
-
-procedure isxdl_AddFile(URL, Filename: AnsiString);
-external 'isxdl_AddFile@files:isxdl.dll stdcall';
-function isxdl_DownloadFiles(hWnd: Integer): Integer;
-external 'isxdl_DownloadFiles@files:isxdl.dll stdcall';
-function isxdl_SetOption(Option, Value: AnsiString): Integer;
-external 'isxdl_SetOption@files:isxdl.dll stdcall';
 
 function GetModuleHandle(lpModuleName: LongInt): LongInt;
 external 'GetModuleHandleA@kernel32.dll stdcall';
@@ -355,48 +344,19 @@ begin
 end;
 
 procedure DownloadFiles(InnoIDE, ISStudio, ISCrypt: Boolean);
-var
-  hWnd: Integer;
-  URL, FileName: String;
 begin
-  isxdl_SetOption('label', 'Downloading extra files');
-  isxdl_SetOption('description', 'Please wait while Setup is downloading extra files to your computer.');
+  if InnoIDE then
+    FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', nil) > 0
+   else
+    FilesDownloaded := True;
 
-  try
-    FileName := ExpandConstant('{tmp}\WizModernSmallImage-IS.bmp');
-    if not FileExists(FileName) then
-      ExtractTemporaryFile(ExtractFileName(FileName));
-    isxdl_SetOption('smallwizardimage', FileName);
-  except
-  end;
-
-  //turn off isxdl resume so it won't leave partially downloaded files behind
-  //resuming wouldn't help anyway since we're going to download to {tmp}
-  isxdl_SetOption('resume', 'false');
-
-  hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
+  if FilesDownloaded and ISStudio then
+    FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', nil) > 0;
   
-  if InnoIDE then begin
-    URL := 'https://jrsoftware.org/download.php/innoide.exe';
-    FileName := ExpandConstant('{tmp}\innoide-setup.exe');
-    isxdl_AddFile(URL, FileName);
-  end;
+  if FilesDownloaded and ISCrypt then
+    FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', nil) > 0;
 
-  if ISStudio then begin
-    URL := 'https://jrsoftware.org/download.php/isstudio.exe';
-    FileName := ExpandConstant('{tmp}\isstudio-setup.exe');
-    isxdl_AddFile(URL, FileName);
-  end;
-  
-  if ISCrypt then begin
-    URL := 'https://jrsoftware.org/download.php/iscrypt.dll';
-    FileName := ExpandConstant('{tmp}\ISCrypt.dll');
-    isxdl_AddFile(URL, FileName);
-  end;
-
-  if isxdl_DownloadFiles(hWnd) <> 0 then
-    FilesDownloaded := True
-  else
+  if not FilesDownloaded then
     SuppressibleMsgBox('Setup could not download the extra files. Try again later or download and install the extra files manually.' + #13#13 + 'Setup will now continue installing normally.', mbError, mb_Ok, idOk);
 end;
 
