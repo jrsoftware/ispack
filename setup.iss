@@ -13,9 +13,9 @@ AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 6
 AppVersion=6.0.6-dev
 AppPublisher=Martijn Laan
-AppPublisherURL=http://www.innosetup.com/
-AppSupportURL=http://www.innosetup.com/
-AppUpdatesURL=http://www.innosetup.com/
+AppPublisherURL=https://www.innosetup.com/
+AppSupportURL=https://www.innosetup.com/
+AppUpdatesURL=https://www.innosetup.com/
 VersionInfoCopyright=Copyright (C) 1997-2020 Jordan Russell. Portions Copyright (C) 2000-2019 Martijn Laan.
 AppMutex=InnoSetupCompilerAppMutex,Global\InnoSetupCompilerAppMutex
 SetupMutex=InnoSetupCompilerSetupMutex,Global\InnoSetupCompilerSetupMutex
@@ -94,7 +94,7 @@ Type: dirifempty; Name: "{app}\Examples\MyDll"
 Type: dirifempty; Name: "{app}\Examples"
 
 [INI]
-Filename: "{app}\isfaq.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://www.jrsoftware.org/isfaq.php" 
+Filename: "{app}\isfaq.url"; Section: "InternetShortcut"; Key: "URL"; String: "https://jrsoftware.org/isfaq.php" 
 
 [Icons]
 Name: "{group}\Inno Setup Compiler"; Filename: "{app}\Compil32.exe"; WorkingDir: "{app}"; AppUserModelID: "JR.InnoSetup.IDE.6"
@@ -377,19 +377,19 @@ begin
   hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
   
   if InnoIDE then begin
-    URL := 'http://www.jrsoftware.org/download.php/innoide.exe';
+    URL := 'https://jrsoftware.org/download.php/innoide.exe';
     FileName := ExpandConstant('{tmp}\innoide-setup.exe');
     isxdl_AddFile(URL, FileName);
   end;
 
   if ISStudio then begin
-    URL := 'http://www.jrsoftware.org/download.php/isstudio.exe';
+    URL := 'https://jrsoftware.org/download.php/isstudio.exe';
     FileName := ExpandConstant('{tmp}\isstudio-setup.exe');
     isxdl_AddFile(URL, FileName);
   end;
   
   if ISCrypt then begin
-    URL := 'http://www.jrsoftware.org/download.php/iscrypt.dll';
+    URL := 'https://jrsoftware.org/download.php/iscrypt.dll';
     FileName := ExpandConstant('{tmp}\ISCrypt.dll');
     isxdl_AddFile(URL, FileName);
   end;
