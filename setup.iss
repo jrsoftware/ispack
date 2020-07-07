@@ -121,8 +121,6 @@ var
   InnoIDECheckBox, ISStudioCheckBox, ISCryptCheckBox: TCheckBox;
   IDEOrg: Boolean;
 
-  DownloadStatusLabel, DownloadFilenameLabel: TNewStaticText;
-  DownloadProgressBar: TNewProgressBar;
   FilesDownloaded: Boolean;
   
   InnoIDEPath, ISStudioPath: String;
@@ -327,38 +325,9 @@ begin
   ISCryptPage := CreateCustomOptionPage(IDEPage.ID, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISCryptCheckBox);
 end;
 
-procedure SetupDownloadControl(const Dest, Src: TControl; const Parent: TWinControl);
-begin
-  Dest.Left := Src.Left;
-  Dest.Top := Src.Top;
-  Dest.Width := Src.Width;
-  Dest.Height := Src.Height;
-  if Src is TNewStaticText then
-    TNewStaticText(Dest).Anchors := TNewStaticText(Src).Anchors
-  else if Src is TNewProgressBar then
-    TNewProgressBar(Dest).Anchors := TNewProgressBar(Src).Anchors;
-  Dest.Visible := False;
-  Dest.Parent := Parent;
-end;
-
-procedure CreateDownloadControls;
-var
-  Page: TWizardPage;
-begin
-  Page := PageFromID(wpPreparing);
-
-  DownloadStatusLabel := TNewStaticText.Create(Page);
-  SetupDownloadControl(DownloadStatusLabel, WizardForm.StatusLabel, Page.Surface);
-  DownloadFilenameLabel := TNewStaticText.Create(Page);
-  SetupDownloadControl(DownloadFilenameLabel, WizardForm.FilenameLabel, Page.Surface);
-  DownloadProgressBar:= TNewProgressBar.Create(Page);
-  SetupDownloadControl(DownloadProgressBar, WizardForm.ProgressGauge, Page.Surface);
-end;
-
 procedure InitializeWizard;
 begin
   CreateCustomPages;
-  CreateDownloadControls;
 
   SetInnoIDECheckBoxChecked(GetPreviousData('IDE' {don't change}, '1') = '1');
   ISStudioCheckBox.Checked := GetPreviousData('ISStudio', '1') = '1';
@@ -374,39 +343,18 @@ begin
   SetPreviousData(PreviousDataKey, 'ISCrypt', IntToStr(Ord(ISCryptCheckBox.Checked)));
 end;
 
-function OnDownloadProgress(const Url, FileName: String; const Progress, ProgressMax: Int64): Boolean;
-begin
-  Log(Format('  %d of %d bytes done.', [Progress, ProgressMax]));
-  DownloadFilenameLabel.Caption := Url;
-  DownloadFilenameLabel.Update;
-  DownloadProgressBar.Position := Progress;
-  DownloadProgressBar.Max := ProgressMax;
-  DownloadProgressBar.Update;
-  Result := True;
-end;
-
 procedure DownloadFiles(InnoIDE, ISStudio, ISCrypt: Boolean);
 begin
-  try
-    DownloadStatusLabel.Visible := True;
-    DownloadStatusLabel.Caption := 'Downloading extra files...';
-    DownloadStatusLabel.Update;
-    DownloadFilenameLabel.Visible := True;
-    DownloadProgressBar.Visible := True;
-    
-    if InnoIDE then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', @OnDownloadProgress) > 0
-     else
-      FilesDownloaded := True;
-    if FilesDownloaded and ISStudio then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', '', @OnDownloadProgress) > 0;
-    if FilesDownloaded and ISCrypt then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', '2f6294f9aa09f59a574b5dcd33be54e16b39377984f3d5658cda44950fa0f8fc', @OnDownloadProgress) > 0;
-  finally
-    DownloadStatusLabel.Visible := False;
-    DownloadFilenameLabel.Visible := False;
-    DownloadProgressBar.Visible := False;
-  end;
+  if InnoIDE then
+    FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', nil) > 0
+   else
+    FilesDownloaded := True;
+
+  if FilesDownloaded and ISStudio then
+    FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', '', nil) > 0;
+  
+  if FilesDownloaded and ISCrypt then
+    FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', '2f6294f9aa09f59a574b5dcd33be54e16b39377984f3d5658cda44950fa0f8fc', nil) > 0;
 
   if not FilesDownloaded then
     SuppressibleMsgBox('Setup could not download the extra files. Try again later or download and install the extra files manually.' + #13#13 + 'Setup will now continue installing normally.', mbError, mb_Ok, idOk);
