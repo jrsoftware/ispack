@@ -395,13 +395,13 @@ begin
     DownloadProgressBar.Visible := True;
     
     if InnoIDE then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', @OnDownloadProgress) > 0
+      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', @OnDownloadProgress) > 0
      else
       FilesDownloaded := True;
     if FilesDownloaded and ISStudio then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', @OnDownloadProgress) > 0;
+      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', '', @OnDownloadProgress) > 0;
     if FilesDownloaded and ISCrypt then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', @OnDownloadProgress) > 0;
+      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', '2f6294f9aa09f59a574b5dcd33be54e16b39377984f3d5658cda44950fa0f8fc', @OnDownloadProgress) > 0;
   finally
     DownloadStatusLabel.Visible := False;
     DownloadFilenameLabel.Visible := False;
