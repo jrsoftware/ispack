@@ -11,7 +11,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 6
-AppVersion=6.0.6-dev
+AppVersion=6.1.0-dev
 AppPublisher=Martijn Laan
 AppPublisherURL=https://www.innosetup.com/
 AppSupportURL=https://www.innosetup.com/
