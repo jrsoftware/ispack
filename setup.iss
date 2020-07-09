@@ -376,12 +376,22 @@ end;
 
 function OnDownloadProgress(const Url, FileName: String; const Progress, ProgressMax: Int64): Boolean;
 begin
-  Log(Format('  %d of %d bytes done.', [Progress, ProgressMax]));
+  if ProgressMax <> 0 then
+    Log(Format('  %d of %d bytes done.', [Progress, ProgressMax]))
+  else
+    Log(Format('  %d bytes done.', [Progress]));
+  
   DownloadFilenameLabel.Caption := Url;
   DownloadFilenameLabel.Update;
-  DownloadProgressBar.Position := Progress;
-  DownloadProgressBar.Max := ProgressMax;
+
+  if ProgressMax <> 0 then begin
+    DownloadProgressBar.Style := npbstNormal;
+    DownloadProgressBar.Max := ProgressMax;
+    DownloadProgressBar.Position := Progress;
+  end else
+    DownloadProgressBar.Style := npbstMarquee;
   DownloadProgressBar.Update;
+
   Result := True;
 end;
 
@@ -389,19 +399,23 @@ procedure DownloadFiles(InnoIDE, ISStudio, ISCrypt: Boolean);
 begin
   try
     DownloadStatusLabel.Visible := True;
-    DownloadStatusLabel.Caption := 'Downloading extra files...';
+    DownloadStatusLabel.Caption := 'Downloading additional files...';
     DownloadStatusLabel.Update;
     DownloadFilenameLabel.Visible := True;
     DownloadProgressBar.Visible := True;
     
-    if InnoIDE then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', @OnDownloadProgress) > 0
-     else
+    try
+      if InnoIDE then
+        DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', @OnDownloadProgress);
+      if ISStudio then
+        DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', '', @OnDownloadProgress);
+      if ISCrypt then
+        DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', '2f6294f9aa09f59a574b5dcd33be54e16b39377984f3d5658cda44950fa0f8fc', @OnDownloadProgress);
       FilesDownloaded := True;
-    if FilesDownloaded and ISStudio then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', '', @OnDownloadProgress) > 0;
-    if FilesDownloaded and ISCrypt then
-      FilesDownloaded := DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', '2f6294f9aa09f59a574b5dcd33be54e16b39377984f3d5658cda44950fa0f8fc', @OnDownloadProgress) > 0;
+    except
+      Log(GetExceptionMessage);
+      FilesDownloaded := False;
+    end;      
   finally
     DownloadStatusLabel.Visible := False;
     DownloadFilenameLabel.Visible := False;
