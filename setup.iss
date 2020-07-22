@@ -11,7 +11,7 @@
 [Setup]
 AppName=Inno Setup QuickStart Pack
 AppId=Inno Setup 6
-AppVersion=6.0.6-dev
+AppVersion=6.1.0-dev
 AppPublisher=Martijn Laan
 AppPublisherURL=https://www.innosetup.com/
 AppSupportURL=https://www.innosetup.com/
@@ -39,8 +39,6 @@ SignTool=ispacksigntool
 SignTool=ispacksigntool256
 SignedUninstaller=yes
 #endif
-; Needed for isxdl.dll
-DEPCompatible=no
 
 [Tasks]
 Name: desktopicon; Description: "{cm:CreateDesktopIcon}"
@@ -68,8 +66,6 @@ Type: files; Name: "{app}\Examples\Donate.bmp"
 ; First the files used by [Code] so these can be quickly decompressed despite solid compression
 Source: "otherfiles\IDE.ico"; Flags: dontcopy
 Source: "otherfiles\ISCrypt.ico"; Flags: dontcopy
-Source: "isxdlfiles\isxdl.dll"; Flags: dontcopy
-Source: "isfiles\WizModernSmallImage-IS.bmp"; Flags: dontcopy
 ; Other files
 Source: "isfiles\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 Source: "isfiles\Examples\*"; DestDir: "{app}\Examples"; Flags: recursesubdirs ignoreversion
@@ -125,17 +121,14 @@ var
   InnoIDECheckBox, ISStudioCheckBox, ISCryptCheckBox: TCheckBox;
   IDEOrg: Boolean;
 
-  FilesDownloaded: Boolean;
+  DownloadStatusLabel, DownloadFilenameLabel: TNewStaticText;
+  DownloadProgressBar: TNewProgressBar;
+  DownloadAbortButton: TNewButton;
+  DownloadControls: array of TControl;
+  NeedToAbortDownload,FilesDownloaded: Boolean;
   
   InnoIDEPath, ISStudioPath: String;
   InnoIDEPathRead, ISStudioPathRead: Boolean;
-
-procedure isxdl_AddFile(URL, Filename: AnsiString);
-external 'isxdl_AddFile@files:isxdl.dll stdcall';
-function isxdl_DownloadFiles(hWnd: Integer): Integer;
-external 'isxdl_DownloadFiles@files:isxdl.dll stdcall';
-function isxdl_SetOption(Option, Value: AnsiString): Integer;
-external 'isxdl_SetOption@files:isxdl.dll stdcall';
 
 function GetModuleHandle(lpModuleName: LongInt): LongInt;
 external 'GetModuleHandleA@kernel32.dll stdcall';
@@ -336,9 +329,60 @@ begin
   ISCryptPage := CreateCustomOptionPage(IDEPage.ID, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISCryptCheckBox);
 end;
 
+procedure SetupDownloadControl(const Dest, Src: TControl; const Parent: TWinControl);
+var
+  N: Integer;
+begin
+  N := GetArrayLength(DownloadControls);
+  SetArrayLength(DownloadControls, N+1);
+  DownloadControls[N] := Dest;
+
+  if Src <> nil then begin
+    Dest.Left := Src.Left;
+    Dest.Top := Src.Top;
+    Dest.Width := Src.Width;
+    Dest.Height := Src.Height;
+    if Src is TNewStaticText then
+      TNewStaticText(Dest).Anchors := TNewStaticText(Src).Anchors
+    else if Src is TNewProgressBar then
+      TNewProgressBar(Dest).Anchors := TNewProgressBar(Src).Anchors;
+  end;
+  Dest.Visible := False;
+  Dest.Parent := Parent;
+end;
+
+procedure DownloadAbortButtonClick(Sender: TObject);
+begin
+  NeedToAbortDownload := MsgBox('Are you sure you want to stop the download?', mbConfirmation, MB_YESNO) = IDYES;
+end;
+
+procedure CreateDownloadControls;
+var
+  Page: TWizardPage;
+begin
+  Page := PageFromID(wpPreparing);
+
+  DownloadStatusLabel := TNewStaticText.Create(Page);
+  SetupDownloadControl(DownloadStatusLabel, WizardForm.StatusLabel, Page.Surface);
+  DownloadFilenameLabel := TNewStaticText.Create(Page);
+  SetupDownloadControl(DownloadFilenameLabel, WizardForm.FilenameLabel, Page.Surface);
+  DownloadProgressBar:= TNewProgressBar.Create(Page);
+  SetupDownloadControl(DownloadProgressBar, WizardForm.ProgressGauge, Page.Surface);
+  DownloadAbortButton := TNewButton.Create(Page);
+  SetupDownloadControl(DownloadAbortButton, nil, Page.Surface);
+
+  DownloadAbortButton.Caption := '&Stop download';
+  DownloadAbortButton.Top := DownloadProgressBar.Top + DownloadProgressBar.Height + ScaleY(8);
+  DownloadAbortButton.Height := WizardForm.CancelButton.Height;
+  DownloadAbortButton.Width := WizardForm.CalculateButtonWidth([DownloadAbortButton.Caption]);
+  DownloadAbortButton.Anchors := [akLeft, akTop];
+  DownloadAbortButton.OnClick := @DownloadAbortButtonClick;
+end;
+
 procedure InitializeWizard;
 begin
   CreateCustomPages;
+  CreateDownloadControls;
 
   SetInnoIDECheckBoxChecked(GetPreviousData('IDE' {don't change}, '1') = '1');
   ISStudioCheckBox.Checked := GetPreviousData('ISStudio', '1') = '1';
@@ -354,49 +398,63 @@ begin
   SetPreviousData(PreviousDataKey, 'ISCrypt', IntToStr(Ord(ISCryptCheckBox.Checked)));
 end;
 
-procedure DownloadFiles(InnoIDE, ISStudio, ISCrypt: Boolean);
-var
-  hWnd: Integer;
-  URL, FileName: String;
+function OnDownloadProgress(const Url, FileName: String; const Progress, ProgressMax: Int64): Boolean;
 begin
-  isxdl_SetOption('label', 'Downloading extra files');
-  isxdl_SetOption('description', 'Please wait while Setup is downloading extra files to your computer.');
+  if NeedToAbortDownload then begin
+    Log('Need to abort download.');
+    Result := False;
+  end else begin
+    if ProgressMax <> 0 then
+      Log(Format('  %d of %d bytes done.', [Progress, ProgressMax]))
+    else
+      Log(Format('  %d bytes done.', [Progress]));
+    
+    DownloadFilenameLabel.Caption := Url;
+    DownloadFilenameLabel.Update;
 
+    if ProgressMax <> 0 then begin
+      DownloadProgressBar.Style := npbstNormal;
+      DownloadProgressBar.Max := ProgressMax;
+      DownloadProgressBar.Position := Progress;
+    end else
+      DownloadProgressBar.Style := npbstMarquee;
+    DownloadProgressBar.Update;
+
+    Result := True;
+  end;
+end;
+
+procedure ShowDownloadControls(const AVisible: Boolean);
+var
+  I: Integer;
+begin
+  for I := 0 to GetArrayLength(DownloadControls)-1 do
+    DownloadControls[I].Visible := AVisible;
+end;
+
+procedure DownloadFiles(InnoIDE, ISStudio, ISCrypt: Boolean);
+begin
   try
-    FileName := ExpandConstant('{tmp}\WizModernSmallImage-IS.bmp');
-    if not FileExists(FileName) then
-      ExtractTemporaryFile(ExtractFileName(FileName));
-    isxdl_SetOption('smallwizardimage', FileName);
-  except
+    DownloadStatusLabel.Caption := 'Downloading additional files...';
+    ShowDownloadControls(True);
+    NeedToAbortDownload := False;
+    try
+      if InnoIDE then
+        DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', @OnDownloadProgress);
+      if ISStudio then
+        DownloadTemporaryFile('https://jrsoftware.org/download.php/isstudio.exe', 'isstudio-setup.exe', '', @OnDownloadProgress);
+      if ISCrypt then
+        DownloadTemporaryFile('https://jrsoftware.org/download.php/iscrypt.dll', 'ISCrypt.dll', '2f6294f9aa09f59a574b5dcd33be54e16b39377984f3d5658cda44950fa0f8fc', @OnDownloadProgress);
+      FilesDownloaded := True;
+    except
+      Log(GetExceptionMessage);
+      FilesDownloaded := False;
+    end;      
+  finally
+    ShowDownloadControls(False);
   end;
 
-  //turn off isxdl resume so it won't leave partially downloaded files behind
-  //resuming wouldn't help anyway since we're going to download to {tmp}
-  isxdl_SetOption('resume', 'false');
-
-  hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
-  
-  if InnoIDE then begin
-    URL := 'https://jrsoftware.org/download.php/innoide.exe';
-    FileName := ExpandConstant('{tmp}\innoide-setup.exe');
-    isxdl_AddFile(URL, FileName);
-  end;
-
-  if ISStudio then begin
-    URL := 'https://jrsoftware.org/download.php/isstudio.exe';
-    FileName := ExpandConstant('{tmp}\isstudio-setup.exe');
-    isxdl_AddFile(URL, FileName);
-  end;
-  
-  if ISCrypt then begin
-    URL := 'https://jrsoftware.org/download.php/iscrypt.dll';
-    FileName := ExpandConstant('{tmp}\ISCrypt.dll');
-    isxdl_AddFile(URL, FileName);
-  end;
-
-  if isxdl_DownloadFiles(hWnd) <> 0 then
-    FilesDownloaded := True
-  else
+  if not FilesDownloaded then
     SuppressibleMsgBox('Setup could not download the extra files. Try again later or download and install the extra files manually.' + #13#13 + 'Setup will now continue installing normally.', mbError, mb_Ok, idOk);
 end;
 
