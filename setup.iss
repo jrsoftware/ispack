@@ -123,7 +123,9 @@ var
 
   DownloadStatusLabel, DownloadFilenameLabel: TNewStaticText;
   DownloadProgressBar: TNewProgressBar;
-  FilesDownloaded: Boolean;
+  DownloadAbortButton: TNewButton;
+  DownloadControls: array of TControl;
+  NeedToAbortDownload,FilesDownloaded: Boolean;
   
   InnoIDEPath, ISStudioPath: String;
   InnoIDEPathRead, ISStudioPathRead: Boolean;
@@ -328,17 +330,30 @@ begin
 end;
 
 procedure SetupDownloadControl(const Dest, Src: TControl; const Parent: TWinControl);
+var
+  N: Integer;
 begin
-  Dest.Left := Src.Left;
-  Dest.Top := Src.Top;
-  Dest.Width := Src.Width;
-  Dest.Height := Src.Height;
-  if Src is TNewStaticText then
-    TNewStaticText(Dest).Anchors := TNewStaticText(Src).Anchors
-  else if Src is TNewProgressBar then
-    TNewProgressBar(Dest).Anchors := TNewProgressBar(Src).Anchors;
+  N := GetArrayLength(DownloadControls);
+  SetArrayLength(DownloadControls, N+1);
+  DownloadControls[N] := Dest;
+
+  if Src <> nil then begin
+    Dest.Left := Src.Left;
+    Dest.Top := Src.Top;
+    Dest.Width := Src.Width;
+    Dest.Height := Src.Height;
+    if Src is TNewStaticText then
+      TNewStaticText(Dest).Anchors := TNewStaticText(Src).Anchors
+    else if Src is TNewProgressBar then
+      TNewProgressBar(Dest).Anchors := TNewProgressBar(Src).Anchors;
+  end;
   Dest.Visible := False;
   Dest.Parent := Parent;
+end;
+
+procedure DownloadAbortButtonClick(Sender: TObject);
+begin
+  NeedToAbortDownload := MsgBox('Are you sure you want to stop the download?', mbConfirmation, MB_YESNO) = IDYES;
 end;
 
 procedure CreateDownloadControls;
@@ -353,6 +368,15 @@ begin
   SetupDownloadControl(DownloadFilenameLabel, WizardForm.FilenameLabel, Page.Surface);
   DownloadProgressBar:= TNewProgressBar.Create(Page);
   SetupDownloadControl(DownloadProgressBar, WizardForm.ProgressGauge, Page.Surface);
+  DownloadAbortButton := TNewButton.Create(Page);
+  SetupDownloadControl(DownloadAbortButton, nil, Page.Surface);
+
+  DownloadAbortButton.Caption := '&Stop download';
+  DownloadAbortButton.Top := DownloadProgressBar.Top + DownloadProgressBar.Height + ScaleY(8);
+  DownloadAbortButton.Height := WizardForm.CancelButton.Height;
+  DownloadAbortButton.Width := WizardForm.CalculateButtonWidth([DownloadAbortButton.Caption]);
+  DownloadAbortButton.Anchors := [akLeft, akTop];
+  DownloadAbortButton.OnClick := @DownloadAbortButtonClick;
 end;
 
 procedure InitializeWizard;
@@ -376,34 +400,44 @@ end;
 
 function OnDownloadProgress(const Url, FileName: String; const Progress, ProgressMax: Int64): Boolean;
 begin
-  if ProgressMax <> 0 then
-    Log(Format('  %d of %d bytes done.', [Progress, ProgressMax]))
-  else
-    Log(Format('  %d bytes done.', [Progress]));
-  
-  DownloadFilenameLabel.Caption := Url;
-  DownloadFilenameLabel.Update;
+  if NeedToAbortDownload then begin
+    Log('Need to abort download.');
+    Result := False;
+  end else begin
+    if ProgressMax <> 0 then
+      Log(Format('  %d of %d bytes done.', [Progress, ProgressMax]))
+    else
+      Log(Format('  %d bytes done.', [Progress]));
+    
+    DownloadFilenameLabel.Caption := Url;
+    DownloadFilenameLabel.Update;
 
-  if ProgressMax <> 0 then begin
-    DownloadProgressBar.Style := npbstNormal;
-    DownloadProgressBar.Max := ProgressMax;
-    DownloadProgressBar.Position := Progress;
-  end else
-    DownloadProgressBar.Style := npbstMarquee;
-  DownloadProgressBar.Update;
+    if ProgressMax <> 0 then begin
+      DownloadProgressBar.Style := npbstNormal;
+      DownloadProgressBar.Max := ProgressMax;
+      DownloadProgressBar.Position := Progress;
+    end else
+      DownloadProgressBar.Style := npbstMarquee;
+    DownloadProgressBar.Update;
 
-  Result := True;
+    Result := True;
+  end;
+end;
+
+procedure ShowDownloadControls(const AVisible: Boolean);
+var
+  I: Integer;
+begin
+  for I := 0 to GetArrayLength(DownloadControls)-1 do
+    DownloadControls[I].Visible := AVisible;
 end;
 
 procedure DownloadFiles(InnoIDE, ISStudio, ISCrypt: Boolean);
 begin
   try
-    DownloadStatusLabel.Visible := True;
     DownloadStatusLabel.Caption := 'Downloading additional files...';
-    DownloadStatusLabel.Update;
-    DownloadFilenameLabel.Visible := True;
-    DownloadProgressBar.Visible := True;
-    
+    ShowDownloadControls(True);
+    NeedToAbortDownload := False;
     try
       if InnoIDE then
         DownloadTemporaryFile('https://jrsoftware.org/download.php/innoide.exe', 'innoide-setup.exe', '', @OnDownloadProgress);
@@ -417,9 +451,7 @@ begin
       FilesDownloaded := False;
     end;      
   finally
-    DownloadStatusLabel.Visible := False;
-    DownloadFilenameLabel.Visible := False;
-    DownloadProgressBar.Visible := False;
+    ShowDownloadControls(False);
   end;
 
   if not FilesDownloaded then
