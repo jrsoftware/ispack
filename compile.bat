@@ -27,6 +27,8 @@ copy %ISSRCROOT%\license.txt .
 if errorlevel 1 goto failed
 copy %ISSRCROOT%\isdonateandmail.iss .
 if errorlevel 1 goto failed
+copy %ISSRCROOT%\isportable.iss .
+if errorlevel 1 goto failed
 copy %ISSRCROOT%\isdonate.bmp .
 if errorlevel 1 goto failed
 copy %ISSRCROOT%\ismail.bmp .
