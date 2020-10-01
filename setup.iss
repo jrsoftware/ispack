@@ -12,8 +12,8 @@
 
 [Setup]
 AppName=Inno Setup QuickStart Pack
-AppId={code:GetAppIdOrVersion|Inno Setup 6}
-AppVersion={code:GetAppIdOrVersion|6.1.0-beta}
+AppId={code:GetAppId|Inno Setup 6}
+AppVersion=6.1.0-beta
 AppPublisher=jrsoftware.org
 AppPublisherURL=https://www.innosetup.com/
 AppSupportURL=https://www.innosetup.com/
@@ -278,6 +278,13 @@ begin
   Result := URLLabel.Width;
 end;
 
+function GetIDECheckCaption(const Caption: String): String;
+begin
+  Result := Caption;
+  if PortableCheck then
+    Result := Result + ' (Not portable!)';
+end;
+
 procedure CreateCustomPages;
 var
   Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption: String;
@@ -293,11 +300,11 @@ begin
       ' Inno Script Studio is by Kymoto Solutions, see https://www.kymoto.org/inno-script-studio for more information.'  +  #13#10#13#10 +
       'Using InnoIDE or Inno Script Studio is especially recommended for new users.';
     Label2Caption := 'Select whether you would like to download and install InnoIDE or Inno Script Studio, then click Next.';
-    CheckCaption := '&Download and install InnoIDE';
+    CheckCaption := GetIDECheckCaption('&Download and install InnoIDE');
 
     IDEPage := CreateCustomOptionPage(wpSelectProgramGroup, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, InnoIDECheckBox);
 
-    CheckCaption := 'D&ownload and install Inno Script Studio';
+    CheckCaption := GetIDECheckCaption('D&ownload and install Inno Script Studio');
     CreateCustomOption(IDEPage, CheckCaption, ISStudioCheckBox, InnoIDECheckBox);
 
     UrlSize := CreateUrlLabel(IDEPage, ISStudioCheckBox, 0, 'http://www.innoide.org/');    
@@ -311,7 +318,7 @@ begin
       ' Inno Script Studio is by Kymoto Solutions, see https://www.kymoto.org/inno-script-studio for more information.'  +  #13#10#13#10 +
       'Using Inno Script Studio is especially recommended for new users.';
     Label2Caption := 'Select whether you would like to download and install Inno Script Studio, then click Next.';
-    CheckCaption := '&Download and install Inno Script Studio';
+    CheckCaption := GetIDECheckCaption('&Download and install Inno Script Studio');
 
     IDEPage := CreateCustomOptionPage(wpSelectProgramGroup, Caption, SubCaption1, IconFileName, Label1Caption, Label2Caption, CheckCaption, ISStudioCheckBox);
 
@@ -335,11 +342,18 @@ begin
 end;
 
 procedure InitializeWizard;
+var
+  ISStudioDefault: String;
 begin
   CreateCustomPages;
 
-  SetInnoIDECheckBoxChecked(GetPreviousData('IDE' {don't change}, '1') = '1');
-  ISStudioCheckBox.Checked := GetPreviousData('ISStudio', '1') = '1';
+  if PortableCheck then
+    ISStudioDefault := '0'
+  else
+    ISStudioDefault := '1';
+
+  SetInnoIDECheckBoxChecked(GetPreviousData('IDE' {don't change}, '0') = '1');
+  ISStudioCheckBox.Checked := GetPreviousData('ISStudio', ISStudioDefault) = '1';
   ISCryptCheckBox.Checked := GetPreviousData('ISCrypt', '1') = '1';
 
   IDEOrg := GetInnoIDECheckBoxChecked or ISStudioCheckBox.Checked;
