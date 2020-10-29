@@ -26,7 +26,28 @@ Portions Copyright &copy; 2000-2020 Martijn Laan. All rights reserved.<br />
 For conditions of distribution and use, see <a href="https://jrsoftware.org/files/is/license.txt">LICENSE.TXT</a>.
 </p>
 
-<p><b>Want to be notified by e-mail of new Inno Setup releases?</b> <a href="https://jrsoftware.org/ismail.php">Subscribe</a> to the Inno Setup Mailing List!<br /><b>If you subscribed before October 2019, please resubscribe.</b></p>
+<p><b>Want to be notified by e-mail of new Inno Setup releases?</b> <a href="https://jrsoftware.org/ismail.php">Subscribe</a> to the Inno Setup Mailing List!</p>
+
+<p><a name="6.1.1"></a><span class="ver">6.1.1-dev </span><span class="date">(2020-10-29)</span></p>
+<p><span class="head2">Compiler IDE updates</span></p>
+<p>Various improvements have been made to the Compiler IDE:</p>
+<ul>
+  <li>Added new <i>Find Previous (Shift+F3)</i> menu item to the <i>Edit</i> menu. The <i>Find Next (F3)</i> menu item now always searches down.</li>
+  <li>Added new <i>Find in Files... (Shift+Ctrl+F)</i> menu item to the <i>Edit</i> menu which shows the results in a <a href="https://i.imgur.com/WeX3T4b.png">new "Find Results" view</a>.</li>
+  <li>The Compiler IDE's New Script Wizard now offers <a href="https://i.imgur.com/IyJZTZY.png">an option to create a file assocation</a>.</li>
+  <li>Added autocomplete support for <a href="https://i.imgur.com/gz4hlV8.png">constants</a>, <a href="https://i.imgur.com/6q15Ik8.png">event functions</a>, <a href="https://i.imgur.com/PpWvzxg.png">flags</a>, <a href="https://i.imgur.com/TTbESLq.png">sections</a>, and <a href="https://i.imgur.com/YSbzJ5B.png">Inno Setup Preprocessor (ISPP) directives</a>.</li>
+</ul>
+<p><span class="head2">Other changes</span></p>
+<ul>
+  <li>The /PORTABLE=1 command line parameter accepted by Inno Setup's own installers has been improved to allow side-by-side installations. For example, to quickly install a new version to the current user's desktop without affecting already installed versions use the following command line parameters: <tt>/portable=1 /silent /currentuser</tt>.</li>
+  <li>Setup's and Uninstall's Back and Next buttons no longer display outdated &quot;<&quot; and &quot;>&quot;  markers.</li>
+  <li>Added new topic to the help file listing the additional <a href="https://jrsoftware.org/ishelp/index.php?topic=compformshortcuts">Compiler IDE keyboard commands</a> which are not listed in the menus. Added new <i>Keyboard commands</i> menu item to the Compiler IDE's <i>Help</i> menu to open this topic.</li>
+  <li>ISPP change: Added new <tt>SaveStringToFile</tt> support function.</li>
+  <li><i>Fix:</i> Calling DLL functions which return a 64-bit integer now gives correct result values.</li>
+  <li>Minor tweaks.</li>
+</ul>
+
+<p>All official translations have now been updated for the changes in the previous version. Thanks to the maintainers for their time.</li>
 
 <p><a name="6.1.0"></a><span class="ver">6.1.0-beta </span><span class="date">(2020-09-13)</span></p>
 <p><span class="head2">Per-user fonts</span></p>
@@ -137,7 +158,7 @@ For conditions of distribution and use, see <a href="https://jrsoftware.org/file
   </li>
 </ul>
 
-<p>Note: Not all official translations have been updated for these changes at this moment. <!-- Demoted the official <a href="https://raw.github.com/jrsoftware/issrc/main/Files/Languages/Unofficial/German.isl">German</a>, <a href="https://raw.github.com/jrsoftware/issrc/main/Files/Languages/Unofficial/Nepali.islu">Nepali</a>, <a href="https://raw.github.com/jrsoftware/issrc/main/Files/Languages/Unofficial/SerbianCyrillic.isl">Serbian (Cyrillic)</a> and <a href="https://raw.github.com/jrsoftware/issrc/main/Files/Languages/Unofficial/SerbianLatin.isl">Serbian (Latin)</a> translations to unofficial because of a no longer available maintainer. To send updates yourself, see <a href="http://news.jrsoftware.org/read/article.php?id=2514&amp;group=jrsoftware.innosetup.translations#2514">this post</a> for what needs updating and use <a href="https://jrsoftware.org/files/istrans/send2.php">this form</a> to send updates (or use <a href="https://github.com/jrsoftware/issrc" target="_blank">GitHub</a>). See the <a href="https://jrsoftware.org/files/istrans/">Inno Setup Translations</a> page for more information. --></li>
+<p>Note: Not all official translations have been updated for these changes at this moment.</li>
 
 <p><a href="https://jrsoftware.org/files/is6.0-whatsnew.htm">Inno Setup 6.0 Revision History</a></p >
 
